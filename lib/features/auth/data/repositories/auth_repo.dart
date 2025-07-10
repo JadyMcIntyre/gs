@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:godsufficient/features/auth/data/models/app_user_model.dart';
 
 abstract class AuthRepo {
@@ -9,6 +8,4 @@ abstract class AuthRepo {
   Future<void> signOut();
 
   Stream<AppUser?> authState();
-
-  AppUser? _toEntity(User? u);
 }
