@@ -1,11 +1,9 @@
 import 'package:godsufficient/features/auth/domain/entities/app_user.dart';
 import 'package:godsufficient/features/auth/domain/repositories/auth_repo.dart';
 
-class SignIn {
+class WatchAuth {
   final AuthRepo repo;
-  SignIn(this.repo);
+  WatchAuth(this.repo);
 
-  Future<AppUser?> call({required String email, required String password}) {
-    return repo.signIn(email, password);
-  }
+  Stream<AppUser?> call() => repo.authState();
 }
