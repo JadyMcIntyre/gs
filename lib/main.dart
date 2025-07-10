@@ -10,6 +10,7 @@ import 'package:godsufficient/theme/theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required for Firebase initialization
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  initAuth();
   runApp(const MyApp());
 }
 

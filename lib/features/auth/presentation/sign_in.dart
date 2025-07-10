@@ -29,6 +29,10 @@ class SignInPage extends StatelessWidget {
                   onPressed: () => context.read<AuthCubit>().login(_email.text.trim(), _pw.text.trim()),
                   child: const Text('Sign In'),
                 ),
+                TextButton(
+                  onPressed: () => context.go('/sign-up'),
+                  child: const Text('Create account'),
+                ),
               ],
             ),
           );
