@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "68940100303",
+    "project_id": "godsufficient-5c827",
+    "storage_bucket": "godsufficient-5c827.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68940100303:android:aa6644fd1f550159fa7dba",
+        "android_client_info": {
+          "package_name": "com.godsufficient.godsufficient"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjAnYVj4jNVe1lZBigjOFOHz9Ck2ifEAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
