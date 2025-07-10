@@ -1,4 +1,4 @@
 # GodSufficient
 
 ## Architecture & Tech Stack
-See [`docs/stack/README.md`](docs/stack/README.md) for usage information.
+See [`Architecture & Tech Stack Info: Documentation`](docs/stack/README.md) for more information.
