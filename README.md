@@ -5,28 +5,17 @@
 ### Clean Architecture Layers
 
 #### Data Layer
-- **Responsibilities**: Data sourcing, model definitions, repository implementations
-- **Key Components**:
-  - Firebase Auth integration (`fb_auth_datasource.dart`)
-  - Model classes (`AppUserModel`)
-  - Repository implementations (`AuthRepositoryImpl`)
+- **Responsibilities**: Handles how data is fetched/stored and maps to simple model objects.
 
 #### Domain Layer
 - **Responsibilities**: Business logic, entity definitions, abstract contracts
-- **Key Components**:
-  - Use cases (`SignIn`, `Register`)
-  - Repository interfaces (`AuthRepo`)
-  - Entity definitions (`AppUser`)
 
 #### Presentation Layer
 - **Responsibilities**: UI rendering, state management, navigation
-- **Key Components**:
-  - BLoC/Cubit state management (`AuthCubit`)
-  - GoRouter configuration (`app_router.dart`)
-  - Reusable widget components
 
 ### Directory Structure
 ```plaintext
+example:
 lib/
 ├── features/
 │   └── auth/
