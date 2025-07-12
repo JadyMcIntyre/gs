@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:godsufficient/core/di/dependencies.dart';
+import 'package:godsufficient/core/di/injection.dart';
 import 'package:godsufficient/core/router/app_router.dart';
 import 'package:godsufficient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:godsufficient/firebase_options.dart';
@@ -10,7 +10,7 @@ import 'package:godsufficient/theme/theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required for Firebase initialization
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  initAuth();
+  await configureDependencies();
   runApp(const MyApp());
 }
 
