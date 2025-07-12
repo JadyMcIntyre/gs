@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:godsufficient/features/home/presentation/home.dart';
-import 'package:godsufficient/features/auth/presentation/sign_in.dart';
-import 'package:godsufficient/features/auth/presentation/sign_up.dart';
+import 'package:godsufficient/features/auth/presentation/pages/sign_in.dart';
+import 'package:godsufficient/features/auth/presentation/pages/sign_up.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/sign-in',
