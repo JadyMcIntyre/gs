@@ -11,7 +11,7 @@ ThemeData lightTheme() {
 
     secondary: Colors.orange,
 
-    onSecondary: Colors.white,
+    onSecondary: Colors.black,
 
     error: Colors.red,
     onError: Colors.white,
