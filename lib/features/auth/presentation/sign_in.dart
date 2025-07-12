@@ -30,9 +30,12 @@ class SignInPage extends StatelessWidget {
           customCrossAxis: CrossAxisAlignment.center,
           widgets: [
             CustomTextField(controller: _email, label: 'Email', hint: 'john@gmail.com'),
-            CustomTextField(controller: _pw, obscureText: true, label: 'Password'),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 9),
+              child: CustomTextField(controller: _pw, obscureText: true, label: 'Password'),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: FilledButton(
                 onPressed: () => context
                     .read<AuthCubit>()
@@ -40,9 +43,9 @@ class SignInPage extends StatelessWidget {
                 child: const Text('Sign In'),
               ),
             ),
-            FilledButton(
+            TextButton(
               onPressed: () => context.go('/sign-up'),
-              child: const Text('Create account'),
+              child: const Text('Dont have an account? Register here'),
             ),
           ],
         );

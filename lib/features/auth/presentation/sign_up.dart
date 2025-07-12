@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:godsufficient/common/widgets/page.dart';
+import 'package:godsufficient/common/widgets/text_field.dart';
 import 'package:godsufficient/features/auth/presentation/cubit/auth_cubit.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -24,14 +25,24 @@ class SignUpPage extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         return AppPage(
+          padding: const EdgeInsets.all(24),
           widgets: [
-            TextField(controller: _email),
-            TextField(controller: _pw, obscureText: true),
-            ElevatedButton(
-              onPressed: () => context.read<AuthCubit>().signup(_email.text.trim(), _pw.text.trim()),
-              child: const Text('Sign Up'),
+            CustomTextField(controller: _email, label: 'Email', hint: 'john@gmail.com'),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 9),
+              child: CustomTextField(controller: _pw, obscureText: true, label: 'Password'),
             ),
-            TextButton(onPressed: () => context.go('/sign-in'), child: const Text('Have an account? Sign in')),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: FilledButton(
+                onPressed: () => context.read<AuthCubit>().signup(_email.text.trim(), _pw.text.trim()),
+                child: const Text('Sign Up'),
+              ),
+            ),
+            TextButton(
+              onPressed: () => context.go('/sign-in'),
+              child: const Text('Already have an account? Log in here'),
+            ),
           ],
         );
       },

@@ -31,7 +31,7 @@ ThemeData lightTheme() {
     filledButtonTheme: FilledButtonThemeData(
       style: ButtonStyle(
         // same 5-px radius everywhere
-        shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+        shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
         // 43-px tall buttons
         minimumSize: WidgetStateProperty.all(const Size(double.infinity, 43)),
         // Primary colour when enabled, grey when disabled
@@ -77,7 +77,7 @@ ThemeData darkTheme() {
     filledButtonTheme: FilledButtonThemeData(
       style: ButtonStyle(
         // same 5-px radius everywhere
-        shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+        shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
         // 43-px tall buttons
         minimumSize: WidgetStateProperty.all(const Size(double.infinity, 43)),
         // Primary colour when enabled, grey when disabled
