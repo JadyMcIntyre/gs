@@ -1,4 +1,4 @@
-import 'package:godsufficient/features/auth/domain/repositories/auth_repo.dart';
+import 'package:godsufficient/features/auth/domain/repo/auth_repo.dart';
 
 class SignOut {
   final AuthRepo repo;

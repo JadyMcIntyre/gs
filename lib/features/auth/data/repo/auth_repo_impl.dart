@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:godsufficient/features/auth/data/datasources/fb_auth_datasource.dart';
 import 'package:godsufficient/features/auth/domain/entities/app_user.dart';
-import 'package:godsufficient/features/auth/domain/repositories/auth_repo.dart';
+import 'package:godsufficient/features/auth/domain/repo/auth_repo.dart';
 
 class AuthRepositoryImpl implements AuthRepo {
   final FirebaseAuthDatasource ds;

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:godsufficient/features/auth/domain/entities/app_user.dart';
 import 'package:godsufficient/features/auth/domain/usecases/sign_in.dart';
 import 'package:godsufficient/features/auth/domain/usecases/register.dart';

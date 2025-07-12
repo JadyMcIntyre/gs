@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:godsufficient/common/widgets/app_page.dart';
-import 'package:godsufficient/common/widgets/text_field.dart';
-import 'package:godsufficient/features/auth/common/auth_screen.dart';
+import 'package:godsufficient/features/auth/presentation/widgets/auth_screen.dart';
 import 'package:godsufficient/features/auth/presentation/cubit/auth_cubit.dart';
 
 class SignUpPage extends StatelessWidget {
