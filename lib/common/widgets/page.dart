@@ -7,6 +7,7 @@ class AppPage extends StatelessWidget {
     this.title,
     this.isScrollable = false,
     this.customCrossAxis,
+    this.customMainAxis,
     this.padding,
     required this.widgets,
     this.appBar,
@@ -16,6 +17,7 @@ class AppPage extends StatelessWidget {
   final String? title;
   final bool isScrollable;
   final CrossAxisAlignment? customCrossAxis;
+  final MainAxisAlignment? customMainAxis;
   final EdgeInsetsGeometry? padding;
   final List<Widget> widgets;
   final AppBar? appBar;
@@ -24,7 +26,7 @@ class AppPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget contentColumn = Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: customMainAxis ?? MainAxisAlignment.center,
       crossAxisAlignment: customCrossAxis ?? CrossAxisAlignment.center,
       children: [...widgets],
     );

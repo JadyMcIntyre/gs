@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:godsufficient/common/widgets/page.dart';
+import 'package:godsufficient/common/widgets/text_field.dart';
 import 'package:godsufficient/features/auth/presentation/cubit/auth_cubit.dart';
 
 class SignInPage extends StatelessWidget {
@@ -28,15 +29,18 @@ class SignInPage extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           customCrossAxis: CrossAxisAlignment.center,
           widgets: [
-            TextField(controller: _email),
-            TextField(controller: _pw, obscureText: true),
-            ElevatedButton(
-              onPressed: () => context
-                  .read<AuthCubit>()
-                  .login(_email.text.trim(), _pw.text.trim()),
-              child: const Text('Sign In'),
+            CustomTextField(controller: _email, label: 'Email', hint: 'john@gmail.com'),
+            CustomTextField(controller: _pw, obscureText: true, label: 'Password'),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: FilledButton(
+                onPressed: () => context
+                    .read<AuthCubit>()
+                    .login(_email.text.trim(), _pw.text.trim()),
+                child: const Text('Sign In'),
+              ),
             ),
-            TextButton(
+            FilledButton(
               onPressed: () => context.go('/sign-up'),
               child: const Text('Create account'),
             ),

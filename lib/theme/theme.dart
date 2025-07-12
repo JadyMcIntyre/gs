@@ -5,20 +5,14 @@ ThemeData lightTheme() {
   const gsColorScheme = ColorScheme(
     brightness: Brightness.light,
 
-    /// Primary Blue
-    primary: Colors.teal,
+    primary: Color(0xFF008081),
 
-    /// Primary Gold
-    onPrimary: Color(0xFFDAC056),
+    onPrimary: Colors.white,
 
-    /// Secondary Blue
     secondary: Colors.orange,
 
-    /// Secondary Gold
-    onSecondary: Color(0xFFE1D0A5),
+    onSecondary: Colors.white,
 
-    /// Secondary Container Gold
-    onSecondaryContainer: Color(0xFFFFE086),
     error: Colors.red,
     onError: Colors.white,
     surface: Colors.white,
@@ -55,25 +49,19 @@ ThemeData lightTheme() {
 
 ThemeData darkTheme() {
   const gsColorScheme = ColorScheme(
-    brightness: Brightness.light,
+    brightness: Brightness.dark,
 
-    /// Primary Blue
-    primary: Colors.teal,
+    primary: Color(0xFF008081),
 
-    /// Primary Gold
-    onPrimary: Color(0xFFDAC056),
+    onPrimary: Colors.white,
 
-    /// Secondary Blue
     secondary: Colors.orange,
 
-    /// Secondary Gold
-    onSecondary: Color(0xFFE1D0A5),
+    onSecondary: Colors.white,
 
-    /// Secondary Container Gold
-    onSecondaryContainer: Color(0xFFFFE086),
     error: Colors.red,
     onError: Colors.white,
-    surface: Colors.white,
+    surface: Color(0xFF0f1217),
     onSurface: Colors.black,
     outline: Color(0xFF777777),
   );
