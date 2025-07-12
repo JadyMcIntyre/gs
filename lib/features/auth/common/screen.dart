@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:godsufficient/common/widgets/icon_button.dart';
-import 'package:godsufficient/common/widgets/page.dart';
+import 'package:godsufficient/common/widgets/app_page.dart';
 import 'package:godsufficient/common/widgets/text_field.dart';
 
 class AuthScreen extends StatelessWidget {

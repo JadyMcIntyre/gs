@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:godsufficient/common/widgets/page.dart';
+import 'package:godsufficient/common/widgets/app_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:godsufficient/features/auth/presentation/cubit/auth_cubit.dart';
 
