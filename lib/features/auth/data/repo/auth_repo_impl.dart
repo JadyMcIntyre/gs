@@ -2,11 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:godsufficient/features/auth/data/datasources/fb_auth_datasource.dart';
 import 'package:godsufficient/features/auth/domain/entities/app_user.dart';
 import 'package:godsufficient/features/auth/domain/repo/auth_repo.dart';
+import 'package:injectable/injectable.dart';
 
-class AuthRepositoryImpl implements AuthRepo {
+@LazySingleton(as: AuthRepo)
+class AuthRepoImpl implements AuthRepo {
   final FirebaseAuthDatasource ds;
 
-  AuthRepositoryImpl(this.ds);
+  AuthRepoImpl(this.ds);
 
   @override
   Future<AppUser?> signIn(String email, String pw) => ds.signInWithEmail(email, pw).then(_toEntity);

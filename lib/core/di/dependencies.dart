@@ -14,7 +14,7 @@ final sl = GetIt.instance;
 void initAuth() {
   // Data
   sl.registerLazySingleton(() => FirebaseAuthDatasource(FirebaseAuth.instance));
-  sl.registerLazySingleton<AuthRepo>(() => AuthRepositoryImpl(sl()));
+  sl.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(sl()));
 
   // Use-cases
   sl.registerLazySingleton(() => SignIn(sl()));

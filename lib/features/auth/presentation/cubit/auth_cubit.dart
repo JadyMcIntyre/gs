@@ -7,9 +7,11 @@ import 'package:godsufficient/features/auth/domain/usecases/sign_in.dart';
 import 'package:godsufficient/features/auth/domain/usecases/register.dart';
 import 'package:godsufficient/features/auth/domain/usecases/sign_out.dart';
 import 'package:godsufficient/features/auth/domain/usecases/watch_auth.dart';
+import 'package:injectable/injectable.dart';
 
 part 'auth_state.dart';
 
+@injectable
 class AuthCubit extends Cubit<AuthState> {
   final SignIn _signIn;
   final Register _register;

@@ -1,6 +1,8 @@
 import 'package:godsufficient/features/auth/domain/entities/app_user.dart';
 import 'package:godsufficient/features/auth/domain/repo/auth_repo.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class SignIn {
   final AuthRepo repo;
   SignIn(this.repo);

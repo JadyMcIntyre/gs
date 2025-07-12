@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:godsufficient/common/dependencies/dependencies.dart';
-import 'package:godsufficient/common/router/app_router.dart';
+import 'package:godsufficient/core/di/dependencies.dart';
+import 'package:godsufficient/core/router/app_router.dart';
 import 'package:godsufficient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:godsufficient/firebase_options.dart';
 import 'package:godsufficient/theme/theme.dart';
