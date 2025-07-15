@@ -21,7 +21,7 @@ class AppPage extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final List<Widget> widgets;
   final AppBar? appBar;
-  final BottomNavigationBar? navBar;
+  final Widget? navBar;
 
   @override
   Widget build(BuildContext context) {
