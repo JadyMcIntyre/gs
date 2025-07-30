@@ -1,7 +1,14 @@
+import 'package:flex_seed_scheme/flex_seed_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData lightTheme() {
+  final flexColorScheme = SeedColorScheme.fromSeeds(
+    primaryKey: Color(0xFF008081),
+    brightness: Brightness.light,
+    secondaryKey: Colors.orange,
+    tones: FlexTones.vivid(Brightness.light),
+  );
   const gsColorScheme = ColorScheme(
     brightness: Brightness.light,
 
@@ -23,7 +30,7 @@ ThemeData lightTheme() {
   final baseTextTheme = GoogleFonts.openSansTextTheme();
 
   return ThemeData(
-    colorScheme: gsColorScheme,
+    colorScheme: flexColorScheme,
     textTheme: baseTextTheme.copyWith(
       titleMedium: baseTextTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: gsColorScheme.primary),
     ),
@@ -48,6 +55,12 @@ ThemeData lightTheme() {
 }
 
 ThemeData darkTheme() {
+  final flexColorScheme = SeedColorScheme.fromSeeds(
+    primaryKey: Color(0xFF008081),
+    brightness: Brightness.dark,
+    secondaryKey: Colors.orange,
+    tones: FlexTones.vivid(Brightness.dark),
+  );
   const gsColorScheme = ColorScheme(
     brightness: Brightness.dark,
 
@@ -69,7 +82,7 @@ ThemeData darkTheme() {
   final baseTextTheme = GoogleFonts.openSansTextTheme();
 
   return ThemeData(
-    colorScheme: gsColorScheme,
+    colorScheme: flexColorScheme,
     textTheme: baseTextTheme.copyWith(
       titleMedium: baseTextTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: gsColorScheme.primary),
     ),

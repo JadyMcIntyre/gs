@@ -23,6 +23,7 @@ dependencies:
   equatable: ^2.0.7
   get_it: ^8.0.3
   injectable: ^2.5.0
+  flex_seed_scheme: ^3.5.1
 
 dev_dependencies:
   flutter_test:
