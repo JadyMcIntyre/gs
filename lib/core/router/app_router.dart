@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:godsufficient/features/help/mentor/become_mentor/presentation/pages/become_mentor.dart';
-import 'package:godsufficient/features/help/mentor/find_mentor/presentation/pages/find_mentor.dart';
+import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/presentation/pages/find_mentor.dart';
 import 'package:godsufficient/features/home/presentation/home.dart';
 import 'package:godsufficient/features/auth/presentation/pages/sign_in.dart';
 import 'package:godsufficient/features/auth/presentation/pages/sign_up.dart';

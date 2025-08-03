@@ -43,7 +43,7 @@ class AppPage extends StatelessWidget {
 
     return Scaffold(
       appBar: isNullOrEmpty(title) ? null : AppBar(title: Text(title!)),
-      body: bodyContent,
+      body: SafeArea(child: bodyContent),
       bottomNavigationBar: navBar,
     );
   }
