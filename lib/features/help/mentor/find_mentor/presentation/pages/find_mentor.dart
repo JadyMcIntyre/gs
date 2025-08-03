@@ -1,48 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:godsufficient/core/widgets/app_page.dart';
-import 'package:godsufficient/core/widgets/text_field.dart';
+import 'package:godsufficient/features/help/mentor/find_mentor/presentation/widgets/mentor_preview.dart';
 
 class FindMentor extends StatelessWidget {
-  FindMentor({super.key});
-
-  final _formKey = GlobalKey<FormState>();
-
-  final _controllers = {'Name': TextEditingController(), 'Email': TextEditingController()};
-  final _buttons = {'Cancel': () {}, 'Submit': () {}};
+  const FindMentor({super.key});
 
   @override
   Widget build(BuildContext context) {
+    /// TODO: create a mentor listing widget
+    /// TODO: create a mentor profile widget
+    /// TODO: find best way to build "catalog/list" of mentors
     return AppPage(
+      mainAxisAlignment: MainAxisAlignment.start,
       padding: const EdgeInsets.all(24),
-      title: 'Become Mentor',
+      title: 'Find Mentor',
       widgets: [
-        Form(
-          key: _formKey,
-          child: Column(
-            children: _controllers.entries.map((entry) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: CustomTextField(controller: entry.value, label: entry.key),
-              );
-            }).toList(),
-          ),
+        MentorPreview(
+          name: 'John Doe',
+          expertise: 'Health Coach',
+          description:
+              'John is your go to man for anything and everything. He is a seasoned expert in all things health and wellness.',
         ),
       ],
-      // Change button stlye for cancel
-      navBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: _buttons.entries.map((entry) {
-          return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: (MediaQuery.sizeOf(context).width / 2) - 24,
-                child: FilledButton(child: Text(entry.key), onPressed: () => entry.value),
-              ),
-            ),
-          );
-        }).toList(),
-      ),
     );
   }
 }

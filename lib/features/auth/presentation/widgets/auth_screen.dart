@@ -24,7 +24,7 @@ class AuthScreen extends StatelessWidget {
 
     return AppPage(
       padding: const EdgeInsets.all(24),
-      customCrossAxis: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       widgets: [
         Text(
           title,

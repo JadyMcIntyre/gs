@@ -3,38 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData lightTheme() {
-  final flexColorScheme = SeedColorScheme.fromSeeds(
+  final lightColorScheme = SeedColorScheme.fromSeeds(
     primaryKey: Color(0xFF008081),
+    primary: Color(0xFF008081),
     brightness: Brightness.light,
     secondaryKey: Colors.orange,
     tones: FlexTones.vivid(Brightness.light),
-  );
-  const gsColorScheme = ColorScheme(
-    brightness: Brightness.light,
-
-    primary: Color(0xFF008081),
-
-    onPrimary: Colors.white,
-
-    secondary: Colors.orange,
-
-    onSecondary: Colors.black,
-
-    error: Colors.red,
-    onError: Colors.white,
-    surface: Colors.white,
-    onSurface: Colors.black,
-    outline: Color(0xFF777777),
   );
 
   final baseTextTheme = GoogleFonts.openSansTextTheme();
 
   return ThemeData(
-    colorScheme: flexColorScheme,
+    colorScheme: lightColorScheme,
     textTheme: baseTextTheme.copyWith(
-      titleMedium: baseTextTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: gsColorScheme.primary),
+      titleMedium: baseTextTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: lightColorScheme.primary),
     ),
-    primaryIconTheme: IconThemeData(color: gsColorScheme.primary),
+    primaryIconTheme: IconThemeData(color: lightColorScheme.primary),
     filledButtonTheme: FilledButtonThemeData(
       style: ButtonStyle(
         // same 5-px radius everywhere
@@ -43,7 +27,7 @@ ThemeData lightTheme() {
         minimumSize: WidgetStateProperty.all(const Size(double.infinity, 43)),
         // Primary colour when enabled, grey when disabled
         backgroundColor: WidgetStateProperty.resolveWith<Color?>(
-          (states) => states.contains(WidgetState.disabled) ? Colors.grey : gsColorScheme.primary,
+          (states) => states.contains(WidgetState.disabled) ? Colors.grey : lightColorScheme.primary,
         ),
         foregroundColor: WidgetStateProperty.all(Colors.white),
         textStyle: WidgetStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)),
@@ -55,38 +39,22 @@ ThemeData lightTheme() {
 }
 
 ThemeData darkTheme() {
-  final flexColorScheme = SeedColorScheme.fromSeeds(
+  final darkColorScheme = SeedColorScheme.fromSeeds(
     primaryKey: Color(0xFF008081),
+    primary: Color(0xFF008081),
     brightness: Brightness.dark,
     secondaryKey: Colors.orange,
     tones: FlexTones.vivid(Brightness.dark),
-  );
-  const gsColorScheme = ColorScheme(
-    brightness: Brightness.dark,
-
-    primary: Color(0xFF008081),
-
-    onPrimary: Colors.white,
-
-    secondary: Colors.orange,
-
-    onSecondary: Colors.white,
-
-    error: Colors.red,
-    onError: Colors.white,
-    surface: Color(0xFF0f1217),
-    onSurface: Colors.black,
-    outline: Color(0xFF777777),
   );
 
   final baseTextTheme = GoogleFonts.openSansTextTheme();
 
   return ThemeData(
-    colorScheme: flexColorScheme,
+    colorScheme: darkColorScheme,
     textTheme: baseTextTheme.copyWith(
-      titleMedium: baseTextTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: gsColorScheme.primary),
+      titleMedium: baseTextTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: darkColorScheme.primary),
     ),
-    primaryIconTheme: IconThemeData(color: gsColorScheme.primary),
+    primaryIconTheme: IconThemeData(color: darkColorScheme.primary),
     filledButtonTheme: FilledButtonThemeData(
       style: ButtonStyle(
         // same 5-px radius everywhere
@@ -95,7 +63,7 @@ ThemeData darkTheme() {
         minimumSize: WidgetStateProperty.all(const Size(double.infinity, 43)),
         // Primary colour when enabled, grey when disabled
         backgroundColor: WidgetStateProperty.resolveWith<Color?>(
-          (states) => states.contains(WidgetState.disabled) ? Colors.grey : gsColorScheme.primary,
+          (states) => states.contains(WidgetState.disabled) ? Colors.grey : darkColorScheme.primary,
         ),
         foregroundColor: WidgetStateProperty.all(Colors.white),
         textStyle: WidgetStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)),

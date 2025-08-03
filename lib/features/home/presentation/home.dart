@@ -10,7 +10,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppPage(title: 'Home', widgets: [
-      TextButton(onPressed: ()=> context.go('/find_mentor'), child: Text('Find Mentor')),
+      TextButton(onPressed: ()=> context.push('/find_mentor'), child: Text('Find Mentor')),
+      TextButton(onPressed: ()=> context.push('/become_mentor'), child: Text('Become Mentor')),
       FilledButton(
         onPressed: () => context.read<AuthCubit>().logout(),
         child: const Text('Sign Out'),
