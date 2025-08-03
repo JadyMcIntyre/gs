@@ -6,8 +6,8 @@ class AppPage extends StatelessWidget {
     super.key,
     this.title,
     this.isScrollable = false,
-    this.customCrossAxis,
-    this.customMainAxis,
+    this.crossAxisAlignment,
+    this.mainAxisAlignment,
     this.padding,
     required this.widgets,
     this.appBar,
@@ -16,18 +16,18 @@ class AppPage extends StatelessWidget {
 
   final String? title;
   final bool isScrollable;
-  final CrossAxisAlignment? customCrossAxis;
-  final MainAxisAlignment? customMainAxis;
+  final CrossAxisAlignment? crossAxisAlignment;
+  final MainAxisAlignment? mainAxisAlignment;
   final EdgeInsetsGeometry? padding;
   final List<Widget> widgets;
   final AppBar? appBar;
-  final BottomNavigationBar? navBar;
+  final Widget? navBar;
 
   @override
   Widget build(BuildContext context) {
     final Widget contentColumn = Column(
-      mainAxisAlignment: customMainAxis ?? MainAxisAlignment.center,
-      crossAxisAlignment: customCrossAxis ?? CrossAxisAlignment.center,
+      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
       children: [...widgets],
     );
 
@@ -41,6 +41,10 @@ class AppPage extends StatelessWidget {
           : contentColumn,
     );
 
-    return Scaffold(appBar: isNullOrEmpty(title) ? null : AppBar(title: Text(title!)), body: bodyContent, bottomNavigationBar: navBar);
+    return Scaffold(
+      appBar: isNullOrEmpty(title) ? null : AppBar(title: Text(title!)),
+      body: SafeArea(child: bodyContent),
+      bottomNavigationBar: navBar,
+    );
   }
 }

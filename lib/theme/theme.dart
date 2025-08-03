@@ -1,33 +1,24 @@
+import 'package:flex_seed_scheme/flex_seed_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData lightTheme() {
-  const gsColorScheme = ColorScheme(
-    brightness: Brightness.light,
-
+  final lightColorScheme = SeedColorScheme.fromSeeds(
+    primaryKey: Color(0xFF008081),
     primary: Color(0xFF008081),
-
-    onPrimary: Colors.white,
-
-    secondary: Colors.orange,
-
-    onSecondary: Colors.black,
-
-    error: Colors.red,
-    onError: Colors.white,
-    surface: Colors.white,
-    onSurface: Colors.black,
-    outline: Color(0xFF777777),
+    brightness: Brightness.light,
+    secondaryKey: Colors.orange,
+    tones: FlexTones.vivid(Brightness.light),
   );
 
   final baseTextTheme = GoogleFonts.openSansTextTheme();
 
   return ThemeData(
-    colorScheme: gsColorScheme,
+    colorScheme: lightColorScheme,
     textTheme: baseTextTheme.copyWith(
-      titleMedium: baseTextTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: gsColorScheme.primary),
+      titleMedium: baseTextTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: lightColorScheme.primary),
     ),
-    primaryIconTheme: IconThemeData(color: gsColorScheme.primary),
+    primaryIconTheme: IconThemeData(color: lightColorScheme.primary),
     filledButtonTheme: FilledButtonThemeData(
       style: ButtonStyle(
         // same 5-px radius everywhere
@@ -36,7 +27,7 @@ ThemeData lightTheme() {
         minimumSize: WidgetStateProperty.all(const Size(double.infinity, 43)),
         // Primary colour when enabled, grey when disabled
         backgroundColor: WidgetStateProperty.resolveWith<Color?>(
-          (states) => states.contains(WidgetState.disabled) ? Colors.grey : gsColorScheme.primary,
+          (states) => states.contains(WidgetState.disabled) ? Colors.grey : lightColorScheme.primary,
         ),
         foregroundColor: WidgetStateProperty.all(Colors.white),
         textStyle: WidgetStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)),
@@ -48,32 +39,22 @@ ThemeData lightTheme() {
 }
 
 ThemeData darkTheme() {
-  const gsColorScheme = ColorScheme(
-    brightness: Brightness.dark,
-
+  final darkColorScheme = SeedColorScheme.fromSeeds(
+    primaryKey: Color(0xFF008081),
     primary: Color(0xFF008081),
-
-    onPrimary: Colors.white,
-
-    secondary: Colors.orange,
-
-    onSecondary: Colors.white,
-
-    error: Colors.red,
-    onError: Colors.white,
-    surface: Color(0xFF0f1217),
-    onSurface: Colors.black,
-    outline: Color(0xFF777777),
+    brightness: Brightness.dark,
+    secondaryKey: Colors.orange,
+    tones: FlexTones.vivid(Brightness.dark),
   );
 
   final baseTextTheme = GoogleFonts.openSansTextTheme();
 
   return ThemeData(
-    colorScheme: gsColorScheme,
+    colorScheme: darkColorScheme,
     textTheme: baseTextTheme.copyWith(
-      titleMedium: baseTextTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: gsColorScheme.primary),
+      titleMedium: baseTextTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: darkColorScheme.primary),
     ),
-    primaryIconTheme: IconThemeData(color: gsColorScheme.primary),
+    primaryIconTheme: IconThemeData(color: darkColorScheme.primary),
     filledButtonTheme: FilledButtonThemeData(
       style: ButtonStyle(
         // same 5-px radius everywhere
@@ -82,7 +63,7 @@ ThemeData darkTheme() {
         minimumSize: WidgetStateProperty.all(const Size(double.infinity, 43)),
         // Primary colour when enabled, grey when disabled
         backgroundColor: WidgetStateProperty.resolveWith<Color?>(
-          (states) => states.contains(WidgetState.disabled) ? Colors.grey : gsColorScheme.primary,
+          (states) => states.contains(WidgetState.disabled) ? Colors.grey : darkColorScheme.primary,
         ),
         foregroundColor: WidgetStateProperty.all(Colors.white),
         textStyle: WidgetStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)),

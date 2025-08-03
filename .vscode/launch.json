@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "gs",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "gs s25u",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart", // point at your app’s entrypoint
+            "deviceId": "R5CRC3NG9ZN" // ← your Android device ID
+        }
+    ]
+}

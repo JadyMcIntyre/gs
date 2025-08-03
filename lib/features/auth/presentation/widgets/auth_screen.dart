@@ -19,12 +19,12 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = isSigningIn ? 'Sign In' : 'Sign Up';
-    final redirectPath = isSigningIn ? '/sign-up' : '/sign-in';
+    final redirectPath = isSigningIn ? '/sign_up' : '/sign_in';
     final redirectText = isSigningIn ? 'Don’t have an account? Register here' : 'Already have an account? Log in here';
 
     return AppPage(
       padding: const EdgeInsets.all(24),
-      customCrossAxis: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       widgets: [
         Text(
           title,

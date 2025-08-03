@@ -76,13 +76,13 @@ import 'package:godsufficient/features/help/mentor/become_mentor/data/repo/becom
     as _i600;
 import 'package:godsufficient/features/help/mentor/become_mentor/domain/repo/become_mentor_repo.dart'
     as _i533;
-import 'package:godsufficient/features/help/mentor/find_mentor/data/datasources/remote/find_mentor_remote_data_source.dart'
+import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/data/datasources/remote/find_mentor_remote_data_source.dart'
     as _i213;
-import 'package:godsufficient/features/help/mentor/find_mentor/data/datasources/remote/find_mentor_remote_data_source_impl.dart'
+import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/data/datasources/remote/find_mentor_remote_data_source_impl.dart'
     as _i1048;
-import 'package:godsufficient/features/help/mentor/find_mentor/data/repo/find_mentor_repo_impl.dart'
+import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/data/repo/find_mentor_repo_impl.dart'
     as _i572;
-import 'package:godsufficient/features/help/mentor/find_mentor/domain/repo/find_mentor_repo.dart'
+import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/domain/repo/find_mentor_repo.dart'
     as _i403;
 import 'package:injectable/injectable.dart' as _i526;
 
