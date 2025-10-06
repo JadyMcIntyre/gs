@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class MentorPreview extends StatelessWidget {
   final String name;
   final String expertise;
+  final List<String> tags;
   final String description;
   final String? imageLink;
   final void Function()? onTap;
@@ -11,6 +12,7 @@ class MentorPreview extends StatelessWidget {
     super.key,
     required this.name,
     required this.expertise,
+    required this.tags,
     required this.description,
     required this.onTap,
     required this.imageLink,
@@ -22,7 +24,11 @@ class MentorPreview extends StatelessWidget {
     final cs = theme.colorScheme;
     final tt = theme.textTheme;
 
-    final nameStyle = tt.headlineSmall?.copyWith(color: cs.secondary, fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis);
+    final nameStyle = tt.headlineSmall?.copyWith(
+      color: cs.secondary,
+      fontWeight: FontWeight.bold,
+      overflow: TextOverflow.ellipsis,
+    );
     final expertiseStyle = tt.titleMedium?.copyWith(color: cs.onSurface, fontWeight: FontWeight.w600);
     final descStyle = tt.titleMedium?.copyWith(color: cs.onSurface);
 
@@ -53,7 +59,21 @@ class MentorPreview extends StatelessWidget {
                             children: [
                               Text(name, style: nameStyle),
                               const SizedBox(height: 4),
-                              Text(expertise, style: expertiseStyle),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 4,
+                                children: tags
+                                    .map(
+                                      (t) => Card(
+                                        color: Colors.green,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(t, style: expertiseStyle),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
                             ],
                           ),
                         ),

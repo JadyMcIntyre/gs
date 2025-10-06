@@ -44,6 +44,7 @@ class FindMentor extends StatelessWidget {
                         },
                         name: mentor.name,
                         expertise: mentor.expertise,
+                        tags: mentor.tags,
                         description: mentor.description,
                         imageLink: mentor.imageLink,
                       ),
