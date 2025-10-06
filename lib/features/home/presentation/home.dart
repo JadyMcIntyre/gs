@@ -9,108 +9,120 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return AppPage(
       isScrollable: true,
       title: 'Home',
       widgets: [
-        const Text('Temporary Entry Points'),
-        const Text('Help Section'),
-        const Text('Mentor'),
+        Text('Help Section', style: textTheme.titleLarge),
+        Text('Mentor', style: textTheme.titleMedium),
         Row(
           children: [
             const SizedBox(width: 10),
             Expanded(
-              child: FilledButton(onPressed: () => context.push('/find_mentor'), child: Text('Find Mentor')),
+              child: FilledButton(onPressed: () => context.push('/find_mentor'), child: const Text('Find Mentor')),
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: FilledButton(onPressed: () => context.push('/become_mentor'), child: Text('Become Mentor')),
+              child: OutlinedButton(onPressed: () => context.push('/become_mentor'), child: const Text('Become Mentor')),
             ),
             const SizedBox(width: 10),
           ],
         ),
-        const Text('Get Help'),
+        Text('Get Help', style: textTheme.titleMedium),
         Row(
           children: [
             const SizedBox(width: 10),
             Expanded(
-              child: FilledButton(onPressed: () => context.push('/find_mentor'), child: Text("Find Help 'centers'")),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: FilledButton(onPressed: () => context.push('/become_mentor'), child: Text("List Help 'centers'")),
-            ),
-            const SizedBox(width: 10),
-          ],
-        ),
-        Padding(padding: const EdgeInsets.all(8.0), child: const Divider()),
-        const Text('Grow Section'),
-        const Text('Apps'),
-        Row(
-          children: [
-            const SizedBox(width: 10),
-            Expanded(
-              child: FilledButton(onPressed: () => context.push('/find_mentor'), child: Text('Explore Apps')),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: FilledButton(onPressed: () => context.push('/become_mentor'), child: Text('Suggest an App')),
-            ),
-            const SizedBox(width: 10),
-          ],
-        ),
-        const Text('Learn'),
-        Row(
-          children: [
-            const SizedBox(width: 10),
-            Expanded(
-              child: FilledButton(
+              child: OutlinedButton(
                 onPressed: () => context.push('/find_mentor'),
-                child: Text("Explore learning resources"),
+                child: const Text("Find Help 'centers'"),
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: FilledButton(
                 onPressed: () => context.push('/become_mentor'),
-                child: Text("Suggest learning resources"),
+                child: const Text("List Help 'centers'"),
               ),
             ),
             const SizedBox(width: 10),
           ],
         ),
-        Padding(padding: const EdgeInsets.all(8.0), child: const Divider()),
-        const Text('Community Section'),
-        const Text('Church'),
+        const Padding(padding: EdgeInsets.all(8.0), child: Divider()),
+        Text('Grow Section', style: textTheme.titleLarge),
+        Text('Apps', style: textTheme.titleMedium),
         Row(
           children: [
             const SizedBox(width: 10),
             Expanded(
-              /// future search area to find churches there
-              child: FilledButton(onPressed: () => context.push('/find_mentor'), child: Text('Churches near you')),
+              child: FilledButton(onPressed: () => context.push('/find_mentor'), child: const Text('Explore Apps')),
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: FilledButton(onPressed: () => context.push('/become_mentor'), child: Text('Suggest a Church')),
+              child: OutlinedButton(onPressed: () => context.push('/become_mentor'), child: const Text('Suggest an App')),
             ),
             const SizedBox(width: 10),
           ],
         ),
-        const Text('Volunteer'),
+        Text('Learn', style: textTheme.titleMedium),
         Row(
           children: [
             const SizedBox(width: 10),
             Expanded(
-              child: FilledButton(onPressed: () => context.push('/find_mentor'), child: Text("Get Involved")),
+              child: OutlinedButton(
+                onPressed: () => context.push('/find_mentor'),
+                child: const Text("Explore learning resources"),
+              ),
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: FilledButton(onPressed: () => context.push('/become_mentor'), child: Text("List an event")),
+              child: FilledButton(
+                onPressed: () => context.push('/become_mentor'),
+                child: const Text("Suggest learning resources"),
+              ),
             ),
             const SizedBox(width: 10),
           ],
         ),
-        Padding(padding: const EdgeInsets.all(8.0), child: const Divider()),
+        const Padding(padding: EdgeInsets.all(8.0), child: Divider()),
+        Text('Community Section', style: textTheme.titleLarge),
+        Text('Church', style: textTheme.titleMedium),
+        Row(
+          children: [
+            const SizedBox(width: 10),
+            Expanded(
+              child: FilledButton(
+                onPressed: () => context.push('/find_mentor'),
+                child: const Text('Churches near you'),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: OutlinedButton(
+                onPressed: () => context.push('/become_mentor'),
+                child: const Text('Suggest a Church'),
+              ),
+            ),
+            const SizedBox(width: 10),
+          ],
+        ),
+        Text('Volunteer', style: textTheme.titleMedium),
+        Row(
+          children: [
+            const SizedBox(width: 10),
+            Expanded(
+              child: OutlinedButton(onPressed: () => context.push('/find_mentor'), child: const Text("Get Involved")),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: FilledButton(onPressed: () => context.push('/become_mentor'), child: const Text("List an event")),
+            ),
+            const SizedBox(width: 10),
+          ],
+        ),
+        const Padding(padding: EdgeInsets.all(8.0), child: Divider()),
         FilledButton(onPressed: () => context.read<AuthCubit>().logout(), child: const Text('Sign Out')),
       ],
     );
