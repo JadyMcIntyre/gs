@@ -25,12 +25,12 @@ class MentorPreview extends StatelessWidget {
     final tt = theme.textTheme;
 
     final nameStyle = tt.headlineSmall?.copyWith(
-      color: cs.secondary,
+      color: cs.onSurface,
       fontWeight: FontWeight.bold,
       overflow: TextOverflow.ellipsis,
     );
-    final expertiseStyle = tt.titleMedium?.copyWith(color: cs.onSurface, fontWeight: FontWeight.w600);
-    final descStyle = tt.titleMedium?.copyWith(color: cs.onSurface);
+    final expertiseStyle = tt.bodySmall?.copyWith(color: cs.onSurface, fontWeight: FontWeight.w600);
+    final descStyle = tt.titleMedium?.copyWith(color: cs.onSurface, overflow: TextOverflow.ellipsis);
 
     return GestureDetector(
       onTap: onTap,
@@ -38,51 +38,48 @@ class MentorPreview extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           // Card background
-          Container(
+          Card(
             margin: const EdgeInsets.only(top: 30),
-            child: Card(
-              margin: EdgeInsets.zero,
-              elevation: 3,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(width: 110), // space for avatar
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(name, style: nameStyle),
-                              const SizedBox(height: 4),
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 4,
-                                children: tags
-                                    .map(
-                                      (t) => Card(
-                                        color: Colors.green,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(t, style: expertiseStyle),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
+            elevation: 3,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(width: 110), // space for avatar
+                      Text(name, style: nameStyle),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, left: 100),
+                    child: Wrap(
+                      spacing: 4,
+                      runSpacing: 4,
+                      children: tags
+                          .map(
+                            (t) => Card(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: cs.secondary, width: 1),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            ],
-                          ),
-                        ),
-                      ],
+                              color: cs.surface,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(t, style: expertiseStyle),
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    const SizedBox(height: 12),
-                    Text(description, style: descStyle),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(description, style: descStyle, maxLines: 3),
+                ],
               ),
             ),
           ),
@@ -93,7 +90,7 @@ class MentorPreview extends StatelessWidget {
             left: 10,
             child: CircleAvatar(
               radius: 52,
-              backgroundColor: Colors.white,
+              backgroundColor: cs.onSurfaceVariant,
               child: CircleAvatar(
                 radius: 50,
                 backgroundColor: Colors.grey.shade200,
