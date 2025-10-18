@@ -12,7 +12,6 @@ class AppPage extends StatelessWidget {
     required this.widgets,
     this.appBar,
     this.navBar,
-    this.useNavBar = true,
   });
 
   final String? title;
@@ -23,7 +22,6 @@ class AppPage extends StatelessWidget {
   final List<Widget> widgets;
   final AppBar? appBar;
   final Widget? navBar;
-  final bool useNavBar;
 
   @override
   Widget build(BuildContext context) {
@@ -46,25 +44,7 @@ class AppPage extends StatelessWidget {
     return Scaffold(
       appBar: isNullOrEmpty(title) ? null : AppBar(title: Text(title!)),
       body: SafeArea(child: bodyContent),
-      bottomNavigationBar: useNavBar
-          ? navBar ??
-                BottomNavigationBar(
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: IconButton(onPressed: () {}, icon: Icon(Icons.trending_up)),
-                      label: 'Grow',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: IconButton(onPressed: () {}, icon: Icon(Icons.help)),
-                      label: 'Help',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: IconButton(onPressed: () {}, icon: Icon(Icons.church)),
-                      label: 'Community',
-                    ),
-                  ],
-                )
-          : null,
+      bottomNavigationBar: navBar,
     );
   }
 }
