@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /suggestions/{suggestionId} {
+      function isAdmin() {
+        return request.auth != null && request.auth.token.admin == true;
+      }
+
+      allow read: if isAdmin();
+      allow update, delete: if isAdmin();
+
+      allow create: if request.auth != null
+        && request.auth.token.firebase.sign_in_provider != null
+        && request.resource.data.keys().hasOnly([
+          'firstName',
+          'lastName',
+          'email',
+          'phone',
+          'expertise',
+          'description',
+          'status',
+          'statusHistory',
+          'published',
+          'userId',
+          'createdAt',
+          'attachment'
+        ])
+        && request.resource.data.firstName is string
+        && request.resource.data.lastName is string
+        && request.resource.data.email is string
+        && request.resource.data.phone is string
+        && request.resource.data.expertise is string
+        && request.resource.data.description is string
+        && request.resource.data.firstName.size() > 0
+        && request.resource.data.lastName.size() > 0
+        && request.resource.data.email.size() > 0
+        && request.resource.data.phone.size() > 0
+        && request.resource.data.expertise.size() > 0
+        && request.resource.data.description.size() > 0
+        && request.resource.data.description.size() <= 5000
+        && request.resource.data.status == 'submitted'
+        && request.resource.data.statusHistory.size() == 1
+        && request.resource.data.statusHistory[0].status == 'submitted'
+        && request.resource.data.statusHistory[0].changedAt == request.time
+        && request.resource.data.published == false
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && (!('attachment' in request.resource.data)
+            || (request.resource.data.attachment.keys().hasOnly([
+                  'name',
+                  'storagePath',
+                  'downloadUrl',
+                  'contentType'
+                ])
+                && request.resource.data.attachment.name is string
+                && request.resource.data.attachment.storagePath is string
+                && request.resource.data.attachment.downloadUrl is string
+                && request.resource.data.attachment.contentType is string));
+    }
+  }
+}

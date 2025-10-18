@@ -9,7 +9,9 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:cloud_firestore/cloud_firestore.dart' as _i928;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
+import 'package:firebase_storage/firebase_storage.dart' as _i1032;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:godsufficient/core/di/core_modules.dart' as _i575;
 import 'package:godsufficient/features/auth/data/datasources/fb_auth_datasource.dart'
@@ -84,6 +86,8 @@ import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/d
     as _i572;
 import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/domain/repo/find_mentor_repo.dart'
     as _i403;
+import 'package:godsufficient/features/help/mentor/become_mentor/presentation/cubit/become_mentor_cubit.dart'
+    as _i1200;
 import 'package:injectable/injectable.dart' as _i526;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -95,6 +99,8 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final coreModule = _$CoreModule();
     gh.lazySingleton<_i59.FirebaseAuth>(() => coreModule.firebaseAuth);
+    gh.lazySingleton<_i928.FirebaseFirestore>(() => coreModule.firestore);
+    gh.lazySingleton<_i1032.FirebaseStorage>(() => coreModule.storage);
     gh.lazySingleton<_i626.ChurchRepo>(() => _i335.ChurchRepoImpl());
     gh.lazySingleton<_i213.FindMentorRemoteDataSource>(
       () => _i1048.FindMentorRemoteDataSourceImpl(),
@@ -104,7 +110,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i693.GetHelpRemoteDataSourceImpl(),
     );
     gh.lazySingleton<_i533.BecomeMentorRepo>(
-      () => _i600.BecomeMentorRepoImpl(),
+      () => _i600.BecomeMentorRepoImpl(
+        gh<_i990.BecomeMentorRemoteDataSource>(),
+        gh<_i59.FirebaseAuth>(),
+      ),
     );
     gh.lazySingleton<_i658.ChurchRemoteDataSource>(
       () => _i534.ChurchRemoteDataSourceImpl(),
@@ -116,7 +125,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i917.VolunteerRemoteDataSourceImpl(),
     );
     gh.lazySingleton<_i990.BecomeMentorRemoteDataSource>(
-      () => _i485.BecomeMentorRemoteDataSourceImpl(),
+      () => _i485.BecomeMentorRemoteDataSourceImpl(
+        gh<_i928.FirebaseFirestore>(),
+        gh<_i1032.FirebaseStorage>(),
+      ),
     );
     gh.lazySingleton<_i821.AppsRemoteDataSource>(
       () => _i388.AppsRemoteDataSourceImpl(),
@@ -142,6 +154,9 @@ extension GetItInjectableX on _i174.GetIt {
         signOut: gh<_i729.SignOut>(),
         watchAuth: gh<_i1055.WatchAuth>(),
       ),
+    );
+    gh.factory<_i1200.BecomeMentorCubit>(
+      () => _i1200.BecomeMentorCubit(gh<_i533.BecomeMentorRepo>()),
     );
     return this;
   }
