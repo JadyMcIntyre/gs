@@ -101,8 +101,8 @@ StatefulShellBranch _helpBranch() {
           GoRoute(path: 'mentor/add', name: 'help-mentor-add', builder: (context, state) => BecomeMentor()),
           // Optional: mentor profile under Help
           GoRoute(
-            path: 'mentor/profile',
-            name: 'help-mentor-profile',
+            path: 'mentor/find/profile',
+            name: 'selected-mentor',
             builder: (context, state) {
               final mentor = state.extra as Mentor;
               return MentorProfilePage(mentor: mentor);

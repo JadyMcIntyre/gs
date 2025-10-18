@@ -39,8 +39,10 @@ class FindMentor extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: MentorPreview(
                         onTap: () {
-                          // you can pass the mentor along if you like:
-                          context.push('/mentor_profile', extra: mentor);
+                          context.goNamed(
+                            'selected-mentor',
+                            extra: mentor,
+                          );
                         },
                         name: mentor.name,
                         expertise: mentor.expertise,
