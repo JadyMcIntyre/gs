@@ -23,6 +23,7 @@ class AuthScreen extends StatelessWidget {
     final redirectText = isSigningIn ? 'Don’t have an account? Register here' : 'Already have an account? Log in here';
 
     return AppPage(
+      useNavBar: false,
       padding: const EdgeInsets.all(24),
       crossAxisAlignment: CrossAxisAlignment.center,
       widgets: [
