@@ -1,0 +1,9 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Update FB Rules",
+            "command": "firebase deploy --only firestore:rules --project godsufficient-5c827"
+        }
+    ]
+}
