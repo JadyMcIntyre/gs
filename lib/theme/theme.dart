@@ -34,7 +34,11 @@ ThemeData lightTheme() {
         textStyle: WidgetStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)),
       ),
     ),
-    inputDecorationTheme: InputDecorationTheme(filled: true, fillColor: Colors.white),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: lightColorScheme.surfaceContainer,
+      focusColor: lightColorScheme.surface,
+    ),
     useMaterial3: true,
   );
 }
@@ -71,7 +75,11 @@ ThemeData darkTheme() {
         textStyle: WidgetStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)),
       ),
     ),
-    inputDecorationTheme: InputDecorationTheme(filled: true, fillColor: Colors.white),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: darkColorScheme.surfaceContainer,
+      focusColor: darkColorScheme.surface,
+    ),
     useMaterial3: true,
   );
 }
