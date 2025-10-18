@@ -12,8 +12,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required for Firebase initialization
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.playIntegrity,
-    appleProvider: AppleProvider.appAttest,
+    // androidProvider: AndroidProvider.playIntegrity,
+    androidProvider: AndroidProvider.debug,
+    // appleProvider: AppleProvider.appAttest,
   );
   await configureDependencies();
   runApp(const MyApp());

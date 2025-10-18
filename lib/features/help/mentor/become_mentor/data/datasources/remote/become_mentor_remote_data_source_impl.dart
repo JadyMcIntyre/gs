@@ -59,7 +59,7 @@ class BecomeMentorRemoteDataSourceImpl implements BecomeMentorRemoteDataSource {
         'statusHistory': [
           {
             'status': 'submitted',
-            'changedAt': FieldValue.serverTimestamp(),
+            'changedAt': Timestamp.now(),
           }
         ],
         'published': false,
