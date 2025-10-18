@@ -8,6 +8,7 @@ ThemeData lightTheme() {
     primary: Color(0xFF008081),
     brightness: Brightness.light,
     secondaryKey: Colors.orange,
+    secondary: Colors.orange,
     tones: FlexTones.vivid(Brightness.light),
   );
 
@@ -44,6 +45,7 @@ ThemeData darkTheme() {
     primary: Color(0xFF008081),
     brightness: Brightness.dark,
     secondaryKey: Colors.orange,
+    secondary: Colors.orange,
     tones: FlexTones.vivid(Brightness.dark),
   );
 

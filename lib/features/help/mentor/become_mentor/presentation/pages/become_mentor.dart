@@ -12,7 +12,7 @@ class BecomeMentor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _buttons = {
+    final buttons = {
       'Cancel': () {
         context.go('/home');
       },
@@ -45,13 +45,13 @@ class BecomeMentor extends StatelessWidget {
       // Change button stlye for cancel
       navBar: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: _buttons.entries.map((entry) {
+        children: buttons.entries.map((entry) {
           return SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
                 width: (MediaQuery.sizeOf(context).width / 2) - 24,
-                child: FilledButton(child: Text(entry.key), onPressed: entry.value),
+                child: FilledButton(onPressed: entry.value, child: Text(entry.key)),
               ),
             ),
           );
