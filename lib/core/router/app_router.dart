@@ -10,9 +10,14 @@ import 'package:godsufficient/features/auth/presentation/pages/sign_up.dart';
 final GoRouter appRouter = GoRouter(
   initialLocation: '/sign_in',
   routes: [
-    GoRoute(path: '/home', name: 'home', builder: (context, state) => const HomePage()),
+    /// Auth ///
     GoRoute(path: '/sign_in', name: 'sign-in', builder: (context, state) => SignInPage()),
     GoRoute(path: '/sign_up', name: 'sign-up', builder: (context, state) => SignUpPage()),
+
+    /// Home ///
+    GoRoute(path: '/home', name: 'home', builder: (context, state) => const HomePage()),
+
+    /// Help ///
     GoRoute(path: '/find_mentor', name: 'find-mentor', builder: (context, state) => FindMentor()),
     GoRoute(
       path: '/mentor_profile',

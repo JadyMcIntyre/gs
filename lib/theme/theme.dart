@@ -12,7 +12,7 @@ ThemeData lightTheme() {
     tones: FlexTones.vivid(Brightness.light),
   );
 
-  final baseTextTheme = GoogleFonts.openSansTextTheme();
+  final baseTextTheme = GoogleFonts.robotoMonoTextTheme();
 
   return ThemeData(
     colorScheme: lightColorScheme,
@@ -49,7 +49,7 @@ ThemeData darkTheme() {
     tones: FlexTones.vivid(Brightness.dark),
   );
 
-  final baseTextTheme = GoogleFonts.openSansTextTheme();
+  final baseTextTheme = GoogleFonts.robotoMonoTextTheme();
 
   return ThemeData(
     colorScheme: darkColorScheme,

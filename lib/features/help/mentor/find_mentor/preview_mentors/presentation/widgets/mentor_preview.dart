@@ -51,7 +51,9 @@ class MentorPreview extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(width: 110), // space for avatar
-                      Text(name, style: nameStyle),
+                      Expanded(
+                        child: Text(name, style: nameStyle, overflow: TextOverflow.ellipsis),
+                      ),
                     ],
                   ),
                   Padding(
