@@ -252,7 +252,7 @@ class _BecomeMentorState extends State<BecomeMentor> {
     }
 
     final bytes = Uint8List.fromList(file.bytes!);
-    final mimeType = file.mimeType;
+    final mimeType = _lookupMimeType(file.extension);
     final isImage = mimeType?.startsWith('image/') ?? false;
 
     setState(() {
@@ -261,6 +261,25 @@ class _BecomeMentorState extends State<BecomeMentor> {
       _selectedMimeType = mimeType;
       _imagePreview = isImage ? bytes : null;
     });
+  }
+
+  String? _lookupMimeType(String? extension) {
+    if (extension == null) return null;
+    switch (extension.toLowerCase()) {
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'png':
+        return 'image/png';
+      case 'pdf':
+        return 'application/pdf';
+      case 'doc':
+        return 'application/msword';
+      case 'docx':
+        return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      default:
+        return null;
+    }
   }
 
   void _removeAttachment() {
