@@ -8,48 +8,23 @@ import 'package:godsufficient/features/help/mentor/become_mentor/presentation/pa
 import 'package:godsufficient/features/help/mentor/find_mentor/mentor_profile/presentation/pages/mentor_profile_page.dart';
 import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/domain/entities/mentor.dart';
 import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/presentation/pages/find_mentor.dart';
-import 'package:godsufficient/features/home/presentation/home.dart';
 import 'package:godsufficient/features/auth/presentation/pages/sign_in.dart';
 import 'package:godsufficient/features/auth/presentation/pages/sign_up.dart';
 
-final GoRouter appRouter = GoRouter(
-  initialLocation: '/sign_in',
-  routes: [
-    /// Auth ///
-    GoRoute(path: '/sign_in', name: 'sign-in', builder: (context, state) => SignInPage()),
-    GoRoute(path: '/sign_up', name: 'sign-up', builder: (context, state) => SignUpPage()),
-
-    /// Home ///
-    GoRoute(path: '/home', name: 'home', builder: (context, state) => const HomePage()),
-
-    /// Help ///
-    GoRoute(path: '/find_mentor', name: 'find-mentor', builder: (context, state) => FindMentor()),
-    GoRoute(
-      path: '/mentor_profile',
-      name: 'view-mentor',
-      builder: (context, state) {
-        final mentor = state.extra as Mentor;
-        return MentorProfilePage(mentor: mentor);
-      },
-    ),
-    GoRoute(path: '/become_mentor', name: 'become-mentor', builder: (context, state) => BecomeMentor()),
-    // GoRoute(
-    //   path: '/details/:id',
-    //   name: 'details',
-    //   builder: (context, state) {
-    //     final id = state.params['id']!;
-    //     return DetailsPage(itemId: id);
-    //   },
-    // ),
-    // …more routes…
-  ],
-);
-
 GoRouter buildRouter() {
   return GoRouter(
-    initialLocation: '/grow',
+    // If you want to start on auth, keep /sign_in. After login, call context.go('/grow')
+    initialLocation: '/sign_in',
     routes: [
-      // Shell with bottom bar
+      // ---------- AUTH (top-level) ----------
+      GoRoute(path: '/sign_in', name: 'sign-in', builder: (context, state) => SignInPage()),
+      GoRoute(path: '/sign_up', name: 'sign-up', builder: (context, state) => SignUpPage()),
+
+      // ---------- OPTIONAL REDIRECTS from old paths ----------
+      GoRoute(path: '/find_mentor', redirect: (_, __) => '/help/mentor/find'),
+      GoRoute(path: '/become_mentor', redirect: (_, __) => '/help/mentor/add'),
+
+      // ---------- SHELL WITH BOTTOM NAV ----------
       StatefulShellRoute.indexedStack(
         builder: (context, state, navShell) {
           final idx = navShell.currentIndex;
@@ -68,7 +43,7 @@ GoRouter buildRouter() {
         },
         branches: [
           _branchForMega(Mega.grow, const [Nested.apps, Nested.learn]),
-          _branchForMega(Mega.help, const [Nested.get_help, Nested.mentor]),
+          _helpBranch(), // <--- special: we wire mentor pages here
           _branchForMega(Mega.community, const [Nested.church, Nested.volunteer]),
         ],
       ),
@@ -76,12 +51,12 @@ GoRouter buildRouter() {
   );
 }
 
+// Generic branch for Grow/Community
 StatefulShellBranch _branchForMega(Mega mega, List<Nested> nested) {
   return StatefulShellBranch(
     routes: [
       GoRoute(
         path: '/${mega.path}',
-        // This is the tab landing page (index) now
         builder: (context, state) => _MegaHome(mega: mega, nested: nested),
         routes: [
           GoRoute(
@@ -96,7 +71,7 @@ StatefulShellBranch _branchForMega(Mega mega, List<Nested> nested) {
             builder: (context, state) {
               final n = Nested.values.firstWhere((e) => e.path == state.pathParameters['nested']);
               final a = state.pathParameters['action'] == 'add' ? ActionType.add : ActionType.find;
-              return _DoAction(nested: n, action: a);
+              return _DoAction(nested: n, action: a); // stub for not-yet-built screens
             },
           ),
         ],
@@ -105,7 +80,42 @@ StatefulShellBranch _branchForMega(Mega mega, List<Nested> nested) {
   );
 }
 
-// Mega tab landing: shows the nested themes as cards
+// Help branch with real mentor pages on the new URLs
+StatefulShellBranch _helpBranch() {
+  return StatefulShellBranch(
+    routes: [
+      GoRoute(
+        path: '/help',
+        builder: (context, state) => _MegaHome(mega: Mega.help, nested: const [Nested.get_help, Nested.mentor]),
+        routes: [
+          // nested index -> two buttons (Find / Add)
+          GoRoute(
+            path: ':nested',
+            builder: (context, state) {
+              final n = Nested.values.firstWhere((e) => e.path == state.pathParameters['nested']);
+              return _NestedActions(nested: n);
+            },
+          ),
+          // New canonical URLs for your existing pages:
+          GoRoute(path: 'mentor/find', name: 'help-mentor-find', builder: (context, state) => const FindMentor()),
+          GoRoute(path: 'mentor/add', name: 'help-mentor-add', builder: (context, state) => BecomeMentor()),
+          // Optional: mentor profile under Help
+          GoRoute(
+            path: 'mentor/profile',
+            name: 'help-mentor-profile',
+            builder: (context, state) {
+              final mentor = state.extra as Mentor;
+              return MentorProfilePage(mentor: mentor);
+            },
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+// ---------------- UI scaffolding below (unchanged) ----------------
+
 class _MegaHome extends StatelessWidget {
   const _MegaHome({required this.mega, required this.nested});
   final Mega mega;
@@ -139,7 +149,6 @@ class _MegaHome extends StatelessWidget {
   }
 }
 
-// Nested theme page: two clear CTA buttons
 class _NestedActions extends StatelessWidget {
   const _NestedActions({required this.nested});
   final Nested nested;
@@ -154,6 +163,8 @@ class _NestedActions extends StatelessWidget {
           child: SplitActions(
             primaryLabel: nested.actionLabel(ActionType.find),
             secondaryLabel: nested.actionLabel(ActionType.add),
+            // These URLs now resolve to your real pages for mentor;
+            // for other features, they hit _DoAction stub until you build them.
             onPrimary: () => context.go('/${nested.mega.path}/${nested.path}/find'),
             onSecondary: () => context.go('/${nested.mega.path}/${nested.path}/add'),
           ),
@@ -163,7 +174,6 @@ class _NestedActions extends StatelessWidget {
   }
 }
 
-// Final action screen (stub): swap with actual “find/add” UIs per feature
 class _DoAction extends StatelessWidget {
   const _DoAction({required this.nested, required this.action});
   final Nested nested;

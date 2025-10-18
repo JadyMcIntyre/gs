@@ -18,11 +18,10 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    final router = buildRouter();
     return MultiBlocProvider(
       providers: [BlocProvider(create: (_) => sl<AuthCubit>())],
       child: MaterialApp.router(
-        routerConfig: router,
+        routerConfig: buildRouter(),
         title: 'God Sufficient',
         theme: lightTheme(),
         darkTheme: darkTheme(),

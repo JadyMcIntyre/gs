@@ -23,7 +23,7 @@ class BecomeMentor extends StatelessWidget {
   Widget build(BuildContext context) {
     final buttons = {
       'Cancel': () {
-        context.go('/home');
+        context.go('/grow');
       },
       'Submit': () {
         if (_formKey.currentState!.validate()) {
