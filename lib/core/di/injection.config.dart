@@ -9,9 +9,9 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:cloud_firestore/cloud_firestore.dart' as _i928;
+import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
-import 'package:firebase_storage/firebase_storage.dart' as _i1032;
+import 'package:firebase_storage/firebase_storage.dart' as _i457;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:godsufficient/core/di/core_modules.dart' as _i575;
 import 'package:godsufficient/features/auth/data/datasources/fb_auth_datasource.dart'
@@ -78,16 +78,24 @@ import 'package:godsufficient/features/help/mentor/become_mentor/data/repo/becom
     as _i600;
 import 'package:godsufficient/features/help/mentor/become_mentor/domain/repo/become_mentor_repo.dart'
     as _i533;
-import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/data/datasources/remote/find_mentor_remote_data_source.dart'
-    as _i213;
-import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/data/datasources/remote/find_mentor_remote_data_source_impl.dart'
-    as _i1048;
-import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/data/repo/find_mentor_repo_impl.dart'
-    as _i572;
-import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/domain/repo/find_mentor_repo.dart'
-    as _i403;
 import 'package:godsufficient/features/help/mentor/become_mentor/presentation/cubit/become_mentor_cubit.dart'
-    as _i1200;
+    as _i33;
+import 'package:godsufficient/features/help/mentor/find_mentor/mentor_profile/data/datasources/remote/mentor_profile_remote_data_source.dart'
+    as _i842;
+import 'package:godsufficient/features/help/mentor/find_mentor/mentor_profile/data/datasources/remote/mentor_profile_remote_data_source_impl.dart'
+    as _i720;
+import 'package:godsufficient/features/help/mentor/find_mentor/mentor_profile/data/repo/mentor_profile_repo_impl.dart'
+    as _i657;
+import 'package:godsufficient/features/help/mentor/find_mentor/mentor_profile/domain/repo/mentor_profile_repo.dart'
+    as _i669;
+import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/data/datasources/remote/find_mentor_remote_data_source.dart'
+    as _i408;
+import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/data/datasources/remote/find_mentor_remote_data_source_impl.dart'
+    as _i625;
+import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/data/repo/find_mentor_repo_impl.dart'
+    as _i1037;
+import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/domain/repo/find_mentor_repo.dart'
+    as _i1056;
 import 'package:injectable/injectable.dart' as _i526;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -99,24 +107,18 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final coreModule = _$CoreModule();
     gh.lazySingleton<_i59.FirebaseAuth>(() => coreModule.firebaseAuth);
-    gh.lazySingleton<_i928.FirebaseFirestore>(() => coreModule.firestore);
-    gh.lazySingleton<_i1032.FirebaseStorage>(() => coreModule.storage);
+    gh.lazySingleton<_i974.FirebaseFirestore>(() => coreModule.firestore);
+    gh.lazySingleton<_i457.FirebaseStorage>(() => coreModule.storage);
     gh.lazySingleton<_i626.ChurchRepo>(() => _i335.ChurchRepoImpl());
-    gh.lazySingleton<_i213.FindMentorRemoteDataSource>(
-      () => _i1048.FindMentorRemoteDataSourceImpl(),
-    );
-    gh.lazySingleton<_i526.AppsRepo>(() => _i497.AppsRepoImpl());
+    gh.lazySingleton<_i1056.FindMentorRepo>(() => _i1037.FindMentorRepoImpl());
     gh.lazySingleton<_i128.GetHelpRemoteDataSource>(
       () => _i693.GetHelpRemoteDataSourceImpl(),
     );
-    gh.lazySingleton<_i533.BecomeMentorRepo>(
-      () => _i600.BecomeMentorRepoImpl(
-        gh<_i990.BecomeMentorRemoteDataSource>(),
-        gh<_i59.FirebaseAuth>(),
-      ),
-    );
     gh.lazySingleton<_i658.ChurchRemoteDataSource>(
       () => _i534.ChurchRemoteDataSourceImpl(),
+    );
+    gh.lazySingleton<_i408.FindMentorRemoteDataSource>(
+      () => _i625.FindMentorRemoteDataSourceImpl(),
     );
     gh.lazySingleton<_i995.LearnRemoteDataSource>(
       () => _i562.LearnRemoteDataSourceImpl(),
@@ -124,17 +126,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i124.VolunteerRemoteDataSource>(
       () => _i917.VolunteerRemoteDataSourceImpl(),
     );
-    gh.lazySingleton<_i990.BecomeMentorRemoteDataSource>(
-      () => _i485.BecomeMentorRemoteDataSourceImpl(
-        gh<_i928.FirebaseFirestore>(),
-        gh<_i1032.FirebaseStorage>(),
-      ),
-    );
-    gh.lazySingleton<_i821.AppsRemoteDataSource>(
-      () => _i388.AppsRemoteDataSourceImpl(),
-    );
     gh.lazySingleton<_i786.GetHelpRepo>(() => _i900.GetHelpRepoImpl());
-    gh.lazySingleton<_i403.FindMentorRepo>(() => _i572.FindMentorRepoImpl());
+    gh.lazySingleton<_i669.MentorProfileRepo>(
+      () => _i657.MentorProfileRepoImpl(),
+    );
+    gh.lazySingleton<_i842.MentorProfileRemoteDataSource>(
+      () => _i720.MentorProfileRemoteDataSourceImpl(),
+    );
     gh.lazySingleton<_i242.LearnRepo>(() => _i26.LearnRepoImpl());
     gh.lazySingleton<_i338.VolunteerRepo>(() => _i34.VolunteerRepoImpl());
     gh.factory<_i219.FirebaseAuthDatasource>(
@@ -142,6 +140,18 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i642.AuthRepo>(
       () => _i775.AuthRepoImpl(gh<_i219.FirebaseAuthDatasource>()),
+    );
+    gh.lazySingleton<_i821.AppsRemoteDataSource>(
+      () => _i388.AppsRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
+    );
+    gh.lazySingleton<_i990.BecomeMentorRemoteDataSource>(
+      () => _i485.BecomeMentorRemoteDataSourceImpl(
+        gh<_i974.FirebaseFirestore>(),
+        gh<_i457.FirebaseStorage>(),
+      ),
+    );
+    gh.lazySingleton<_i526.AppsRepo>(
+      () => _i497.AppsRepoImpl(gh<_i821.AppsRemoteDataSource>()),
     );
     gh.factory<_i116.Register>(() => _i116.Register(gh<_i642.AuthRepo>()));
     gh.factory<_i915.SignIn>(() => _i915.SignIn(gh<_i642.AuthRepo>()));
@@ -155,8 +165,14 @@ extension GetItInjectableX on _i174.GetIt {
         watchAuth: gh<_i1055.WatchAuth>(),
       ),
     );
-    gh.factory<_i1200.BecomeMentorCubit>(
-      () => _i1200.BecomeMentorCubit(gh<_i533.BecomeMentorRepo>()),
+    gh.lazySingleton<_i533.BecomeMentorRepo>(
+      () => _i600.BecomeMentorRepoImpl(
+        gh<_i990.BecomeMentorRemoteDataSource>(),
+        gh<_i59.FirebaseAuth>(),
+      ),
+    );
+    gh.factory<_i33.BecomeMentorCubit>(
+      () => _i33.BecomeMentorCubit(gh<_i533.BecomeMentorRepo>()),
     );
     return this;
   }
