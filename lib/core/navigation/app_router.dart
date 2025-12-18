@@ -4,6 +4,10 @@ import 'package:godsufficient/core/navigation/min_app.dart';
 import 'package:godsufficient/core/navigation/nav_models.dart';
 import 'package:godsufficient/core/widgets/action_card.dart';
 import 'package:godsufficient/core/widgets/split_actions.dart';
+import 'package:godsufficient/features/help/get_help/add_help/presentation/pages/add_help_center_page.dart';
+import 'package:godsufficient/features/help/get_help/find_help/presentation/pages/find_help_categories_page.dart';
+import 'package:godsufficient/features/help/get_help/find_help/presentation/pages/help_centers_page.dart';
+import 'package:godsufficient/features/help/get_help/find_help/domain/entities/help_category.dart';
 import 'package:godsufficient/features/help/mentor/become_mentor/presentation/pages/become_mentor.dart';
 import 'package:godsufficient/features/help/mentor/find_mentor/mentor_profile/presentation/pages/mentor_profile_page.dart';
 import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/domain/entities/mentor.dart';
@@ -96,6 +100,17 @@ StatefulShellBranch _helpBranch() {
               return _NestedActions(nested: n);
             },
           ),
+          // Get help
+          GoRoute(path: 'get_help/find', name: 'help-get-help-find', builder: (context, state) => const FindHelpCategoriesPage()),
+          GoRoute(
+            path: 'get_help/find/:categoryId',
+            name: 'help-get-help-centers',
+            builder: (context, state) => HelpCentersPage(
+              categoryId: state.pathParameters['categoryId']!,
+              category: state.extra is HelpCategory ? state.extra as HelpCategory : null,
+            ),
+          ),
+          GoRoute(path: 'get_help/add', name: 'help-get-help-add', builder: (context, state) => const AddHelpCenterPage()),
           // New canonical URLs for your existing pages:
           GoRoute(path: 'mentor/find', name: 'help-mentor-find', builder: (context, state) => const FindMentor()),
           GoRoute(path: 'mentor/add', name: 'help-mentor-add', builder: (context, state) => BecomeMentor()),
