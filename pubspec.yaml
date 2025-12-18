@@ -28,6 +28,7 @@ dependencies:
   injectable: ^2.5.0
   flex_seed_scheme: ^3.5.1
   file_picker: ^8.1.5
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:

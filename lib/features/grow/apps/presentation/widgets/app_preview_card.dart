@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../domain/entities/gs_app.dart';
 
@@ -193,20 +194,59 @@ class _LinkTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: Icon(icon),
-      title: Text(label),
-      subtitle: Text(url, maxLines: 2, overflow: TextOverflow.ellipsis),
-      trailing: IconButton(
-        icon: const Icon(Icons.copy),
-        onPressed: () async {
-          await Clipboard.setData(ClipboardData(text: url));
-          if (!context.mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Copied $label link')),
-          );
-        },
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon),
+              const SizedBox(width: 8),
+              Expanded(child: Text(label, style: Theme.of(context).textTheme.titleSmall)),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(url, maxLines: 2, overflow: TextOverflow.ellipsis),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              FilledButton.icon(
+                onPressed: () async {
+                  final uri = Uri.tryParse(url);
+                  if (uri == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Invalid $label link')),
+                    );
+                    return;
+                  }
+
+                  final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  if (!ok && context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Unable to open $label')),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.open_in_new),
+                label: const Text('Open'),
+              ),
+              OutlinedButton.icon(
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: url));
+                  if (!context.mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Copied $label link')),
+                  );
+                },
+                icon: const Icon(Icons.copy),
+                label: const Text('Copy link'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -227,4 +267,3 @@ class _Avatar extends StatelessWidget {
     );
   }
 }
-
