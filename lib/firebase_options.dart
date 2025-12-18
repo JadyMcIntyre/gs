@@ -71,4 +71,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'godsufficient-5c827.firebasestorage.app',
     iosBundleId: 'com.godsufficient.godsufficient',
   );
+
 }

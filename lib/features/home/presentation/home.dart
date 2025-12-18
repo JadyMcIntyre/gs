@@ -36,14 +36,14 @@ class HomePage extends StatelessWidget {
             const SizedBox(width: 10),
             Expanded(
               child: OutlinedButton(
-                onPressed: () => context.push('/find_mentor'),
+                onPressed: () => context.push('/help/get_help/find'),
                 child: const Text("Find Help 'centers'"),
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: FilledButton(
-                onPressed: () => context.push('/become_mentor'),
+                onPressed: () => context.push('/help/get_help/add'),
                 child: const Text("List Help 'centers'"),
               ),
             ),

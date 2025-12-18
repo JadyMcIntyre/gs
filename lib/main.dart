@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         title: 'God Sufficient',
         theme: lightTheme(),
         darkTheme: darkTheme(),
-        themeMode: ThemeMode.system,
+        themeMode: ThemeMode.light,
       ),
     );
   }
