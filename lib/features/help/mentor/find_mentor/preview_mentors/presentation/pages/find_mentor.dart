@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -15,7 +16,7 @@ class FindMentor extends StatelessWidget {
     /// TODO: find where to store images
     /// TODO: find how to fetch and pass and interact with data throughout preview and profile mentor
     return BlocProvider(
-      create: (_) => FindMentorCubit()..getMentors(),
+      create: (_) => FindMentorCubit(FirebaseFirestore.instance)..getMentors(),
       child: BlocBuilder<FindMentorCubit, FindMentorState>(
         builder: (context, state) {
           if (state is FindMentorLoading) {

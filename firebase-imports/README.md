@@ -1,0 +1,1 @@
+This directory is used for importing data into Firestore. Store your CSV files in the `firebase-imports` folder and run the `import.js` script, updating the CSV filename in the script as needed to import different datasets.
