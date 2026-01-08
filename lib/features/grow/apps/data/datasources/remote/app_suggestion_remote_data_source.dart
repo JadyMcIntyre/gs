@@ -8,5 +8,11 @@ abstract class AppSuggestionRemoteDataSource {
     required String userId,
   });
 
-  Future<AppSuggestionRecord?> getSuggestion(String userId);
+  Future<List<AppSuggestionRecord>> getSuggestions(String userId);
+
+  Future<void> updateSuggestion({
+    required String userId,
+    required String suggestionId,
+    required AppSuggestionModel suggestion,
+  });
 }

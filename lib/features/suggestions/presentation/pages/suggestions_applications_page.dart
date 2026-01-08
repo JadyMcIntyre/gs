@@ -10,8 +10,43 @@ import 'package:godsufficient/features/grow/apps/data/repo/app_suggestion_repo_i
 import 'package:godsufficient/features/grow/apps/presentation/cubit/app_suggestion_cubit.dart';
 import 'package:godsufficient/features/help/mentor/become_mentor/presentation/cubit/become_mentor_cubit.dart';
 
-class SuggestionsApplicationsPage extends StatelessWidget {
+class SuggestionsApplicationsPage extends StatefulWidget {
   const SuggestionsApplicationsPage({super.key});
+
+  @override
+  State<SuggestionsApplicationsPage> createState() => _SuggestionsApplicationsPageState();
+}
+
+class _SuggestionsApplicationsPageState extends State<SuggestionsApplicationsPage> {
+  bool _shownSubmissionDialog = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_shownSubmissionDialog) return;
+    final extra = GoRouterState.of(context).extra;
+    final shouldShow = extra is Map && extra['showSubmissionDialog'] == true;
+    if (!shouldShow) return;
+
+    _shownSubmissionDialog = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Submission received'),
+          content: const Text('Successfully submitted. You may track progress here.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +58,7 @@ class SuggestionsApplicationsPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<BecomeMentorCubit>()..checkExisting()),
-        BlocProvider(create: (_) => AppSuggestionCubit(appSuggestionRepo)..checkExisting()),
+        BlocProvider(create: (_) => AppSuggestionCubit(appSuggestionRepo)..loadSuggestions()),
       ],
       child: BlocBuilder<BecomeMentorCubit, BecomeMentorState>(
         builder: (context, mentorState) {
@@ -118,7 +153,7 @@ class SuggestionsApplicationsPage extends StatelessWidget {
   }
 
   Widget _buildAppSection(BuildContext context, AppSuggestionState state) {
-    if (state.isCheckingExisting) {
+    if (state.isLoadingSuggestions) {
       return const _SectionCard(
         title: 'App suggestion',
         child: Center(child: CircularProgressIndicator()),
@@ -130,12 +165,12 @@ class SuggestionsApplicationsPage extends StatelessWidget {
         title: 'App suggestion',
         child: _ErrorSection(
           message: state.errorMessage!,
-          onRetry: () => context.read<AppSuggestionCubit>().checkExisting(),
+          onRetry: () => context.read<AppSuggestionCubit>().loadSuggestions(),
         ),
       );
     }
 
-    if (state.existing == null) {
+    if (state.suggestions.isEmpty) {
       return _SectionCard(
         title: 'App suggestion',
         child: Column(
@@ -154,17 +189,23 @@ class SuggestionsApplicationsPage extends StatelessWidget {
       );
     }
 
-    final record = state.existing!;
-
     return _SectionCard(
       title: 'App suggestion',
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Status: ${record.status}'),
-          const SizedBox(height: 8),
-          const Text('Thanks for suggesting an app. We will review it soon.'),
-        ],
+        children: state.suggestions
+            .map(
+              (record) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _SuggestionRow(
+                  title: record.suggestion.name,
+                  status: record.status,
+                  onEdit: record.isSubmitted
+                      ? () => context.go('/grow/apps/add', extra: record)
+                      : null,
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }
@@ -218,6 +259,49 @@ class _ErrorSection extends StatelessWidget {
           child: const Text('Retry'),
         ),
       ],
+    );
+  }
+}
+
+class _SuggestionRow extends StatelessWidget {
+  const _SuggestionRow({
+    required this.title,
+    required this.status,
+    this.onEdit,
+  });
+
+  final String title;
+  final String status;
+  final VoidCallback? onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceVariant,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.apps_outlined),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: Theme.of(context).textTheme.titleSmall),
+                const SizedBox(height: 4),
+                Text('Status: $status'),
+              ],
+            ),
+          ),
+          TextButton(
+            onPressed: onEdit,
+            child: const Text('Edit'),
+          ),
+        ],
+      ),
     );
   }
 }

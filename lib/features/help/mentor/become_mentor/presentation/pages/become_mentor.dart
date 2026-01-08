@@ -109,8 +109,8 @@ class _BecomeMentorState extends State<BecomeMentor> {
               _selectedFileName = null;
               _selectedMimeType = null;
             });
-            _showSnackBar(context, 'Thanks! Your mentor submission was received.');
             context.read<BecomeMentorCubit>().reset();
+            context.go('/suggestions', extra: const {'showSubmissionDialog': true});
           } else if (state.status == BecomeMentorStatus.failure && state.errorMessage != null) {
             _showSnackBar(context, state.errorMessage!, isError: true);
           }

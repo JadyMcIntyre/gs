@@ -12,12 +12,15 @@ class AppSuggestionRemoteDataSourceImpl implements AppSuggestionRemoteDataSource
   CollectionReference<Map<String, dynamic>> get _collection =>
       _firestore.collection('suggestions').doc('grow').collection('app');
 
+  CollectionReference<Map<String, dynamic>> _userSuggestions(String userId) =>
+      _collection.doc(userId).collection('suggestions');
+
   @override
   Future<void> submitSuggestion({
     required AppSuggestionModel suggestion,
     required String userId,
   }) async {
-    final docRef = _collection.doc(userId);
+    final docRef = _userSuggestions(userId).doc();
     final data = suggestion.toFirestore()
       ..addAll({
         'status': 'submitted',
@@ -35,15 +38,31 @@ class AppSuggestionRemoteDataSourceImpl implements AppSuggestionRemoteDataSource
   }
 
   @override
-  Future<AppSuggestionRecord?> getSuggestion(String userId) async {
-    final snapshot = await _collection.doc(userId).get();
-    if (!snapshot.exists) return null;
+  Future<List<AppSuggestionRecord>> getSuggestions(String userId) async {
+    final snapshot = await _userSuggestions(userId)
+        .orderBy('createdAt', descending: true)
+        .get();
 
-    final data = snapshot.data();
-    if (data == null) return null;
+    return snapshot.docs.map((doc) {
+      final data = doc.data();
+      final suggestion = AppSuggestionModel.fromFirestore(data);
+      final status = data['status'] as String? ?? 'submitted';
+      return AppSuggestionRecord(id: doc.id, suggestion: suggestion, status: status);
+    }).toList();
+  }
 
-    final suggestion = AppSuggestionModel.fromFirestore(data);
-    final status = data['status'] as String? ?? 'submitted';
-    return AppSuggestionRecord(suggestion: suggestion, status: status);
+  @override
+  Future<void> updateSuggestion({
+    required String userId,
+    required String suggestionId,
+    required AppSuggestionModel suggestion,
+  }) async {
+    final docRef = _userSuggestions(userId).doc(suggestionId);
+    final data = suggestion.toFirestore()
+      ..addAll({
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+    await docRef.set(data, SetOptions(merge: true));
   }
 }

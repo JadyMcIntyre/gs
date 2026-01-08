@@ -4,49 +4,49 @@ class AppSuggestionState extends Equatable {
   const AppSuggestionState({
     required this.status,
     this.errorMessage,
-    this.existing,
-    this.isCheckingExisting = false,
+    this.suggestions = const [],
+    this.isLoadingSuggestions = false,
   });
 
   const AppSuggestionState.initial()
-      : this(status: AppSuggestionStatus.initial, isCheckingExisting: false);
+      : this(status: AppSuggestionStatus.initial, isLoadingSuggestions: false);
 
   const AppSuggestionState.submitting()
-      : this(status: AppSuggestionStatus.submitting, isCheckingExisting: false);
+      : this(status: AppSuggestionStatus.submitting, isLoadingSuggestions: false);
 
   const AppSuggestionState.success()
-      : this(status: AppSuggestionStatus.success, isCheckingExisting: false);
+      : this(status: AppSuggestionStatus.success, isLoadingSuggestions: false);
 
   const AppSuggestionState.failure(String message)
       : this(
           status: AppSuggestionStatus.failure,
           errorMessage: message,
-          isCheckingExisting: false,
+          isLoadingSuggestions: false,
         );
 
   final AppSuggestionStatus status;
   final String? errorMessage;
-  final AppSuggestionRecord? existing;
-  final bool isCheckingExisting;
+  final List<AppSuggestionRecord> suggestions;
+  final bool isLoadingSuggestions;
 
   bool get isSubmitting => status == AppSuggestionStatus.submitting;
 
   AppSuggestionState copyWith({
     AppSuggestionStatus? status,
     String? errorMessage,
-    AppSuggestionRecord? existing,
-    bool? isCheckingExisting,
+    List<AppSuggestionRecord>? suggestions,
+    bool? isLoadingSuggestions,
   }) {
     return AppSuggestionState(
       status: status ?? this.status,
       errorMessage: errorMessage,
-      existing: existing ?? this.existing,
-      isCheckingExisting: isCheckingExisting ?? this.isCheckingExisting,
+      suggestions: suggestions ?? this.suggestions,
+      isLoadingSuggestions: isLoadingSuggestions ?? this.isLoadingSuggestions,
     );
   }
 
   @override
-  List<Object?> get props => [status, errorMessage, existing, isCheckingExisting];
+  List<Object?> get props => [status, errorMessage, suggestions, isLoadingSuggestions];
 }
 
 enum AppSuggestionStatus { initial, submitting, success, failure }

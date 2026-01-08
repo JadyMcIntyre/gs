@@ -33,18 +33,40 @@ class AppSuggestionRepoImpl implements AppSuggestionRepo {
   }
 
   @override
-  Future<AppSuggestionRecord?> getExistingSuggestion() async {
+  Future<List<AppSuggestionRecord>> getSuggestions() async {
     final user = _auth.currentUser;
     if (user == null) {
-      return null;
+      return [];
     }
 
     try {
-      return await _remote.getSuggestion(user.uid);
+      return await _remote.getSuggestions(user.uid);
     } on FirebaseException catch (e) {
       throw AppSuggestionException(e.message ?? 'Unable to load your app suggestion. (${e.code})');
     } catch (e) {
       throw const AppSuggestionException('Something went wrong while loading your suggestion.');
+    }
+  }
+
+  @override
+  Future<void> updateSuggestion(String suggestionId, AppSuggestion suggestion) async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      throw const AppSuggestionException('Please sign in before updating an app suggestion.');
+    }
+
+    final model = AppSuggestionModel.fromEntity(suggestion);
+
+    try {
+      await _remote.updateSuggestion(
+        userId: user.uid,
+        suggestionId: suggestionId,
+        suggestion: model,
+      );
+    } on FirebaseException catch (e) {
+      throw AppSuggestionException(e.message ?? 'Unable to update app suggestion. (${e.code})');
+    } catch (e) {
+      throw const AppSuggestionException('Something went wrong while updating your suggestion.');
     }
   }
 }

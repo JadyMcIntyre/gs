@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:godsufficient/core/navigation/min_app.dart';
 import 'package:godsufficient/core/widgets/text_field.dart';
 
 import '../../data/datasources/remote/app_suggestion_remote_data_source_impl.dart';
 import '../../data/repo/app_suggestion_repo_impl.dart';
 import '../../domain/entities/app_suggestion.dart';
+import '../../domain/entities/app_suggestion_record.dart';
 import '../cubit/app_suggestion_cubit.dart';
 
 class SuggestAppPage extends StatefulWidget {
@@ -21,6 +23,8 @@ class _SuggestAppPageState extends State<SuggestAppPage> {
   final _formKey = GlobalKey<FormState>();
   late final List<_FieldConfig> _fields;
   final _tagsController = TextEditingController();
+  AppSuggestionRecord? _editingRecord;
+  bool _prefilled = false;
 
   @override
   void initState() {
@@ -62,6 +66,19 @@ class _SuggestAppPageState extends State<SuggestAppPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_prefilled) return;
+
+    final extra = GoRouterState.of(context).extra;
+    if (extra is AppSuggestionRecord) {
+      _editingRecord = extra;
+      _prefill(extra);
+    }
+    _prefilled = true;
+  }
+
+  @override
   void dispose() {
     for (final field in _fields) {
       field.controller.dispose();
@@ -86,7 +103,8 @@ class _SuggestAppPageState extends State<SuggestAppPage> {
               field.controller.clear();
             }
             _tagsController.clear();
-            _showSnackBar(context, 'Thanks! Your app suggestion was received.');
+            _editingRecord = null;
+            context.go('/suggestions', extra: const {'showSubmissionDialog': true});
           } else if (state.status == AppSuggestionStatus.failure && state.errorMessage != null) {
             _showSnackBar(context, state.errorMessage!, isError: true);
           }
@@ -94,7 +112,7 @@ class _SuggestAppPageState extends State<SuggestAppPage> {
         builder: (context, state) {
           final isSubmitting = state.isSubmitting;
           return MinAppScaffold(
-            title: 'Suggest an app',
+            title: _editingRecord == null ? 'Suggest an app' : 'Update app suggestion',
             body: SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -136,11 +154,7 @@ class _SuggestAppPageState extends State<SuggestAppPage> {
                     FilledButton(
                       onPressed: isSubmitting ? null : () => _submit(context),
                       child: isSubmitting
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
+                          ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2))
                           : const Text('Submit'),
                     ),
                   ],
@@ -170,18 +184,19 @@ class _SuggestAppPageState extends State<SuggestAppPage> {
 
     final suggestion = AppSuggestion(
       name: _fields[0].controller.text.trim(),
-      description: _fields[1].controller.text.trim().isEmpty
-          ? null
-          : _fields[1].controller.text.trim(),
+      description: _fields[1].controller.text.trim().isEmpty ? null : _fields[1].controller.text.trim(),
       logoUrl: _fields[2].controller.text.trim().isEmpty ? null : _fields[2].controller.text.trim(),
-      appStoreUrl:
-          _fields[3].controller.text.trim().isEmpty ? null : _fields[3].controller.text.trim(),
-      playStoreUrl:
-          _fields[4].controller.text.trim().isEmpty ? null : _fields[4].controller.text.trim(),
+      appStoreUrl: _fields[3].controller.text.trim().isEmpty ? null : _fields[3].controller.text.trim(),
+      playStoreUrl: _fields[4].controller.text.trim().isEmpty ? null : _fields[4].controller.text.trim(),
       tags: tags,
     );
 
-    context.read<AppSuggestionCubit>().submit(suggestion);
+    final editing = _editingRecord;
+    if (editing != null) {
+      context.read<AppSuggestionCubit>().update(editing.id, suggestion);
+    } else {
+      context.read<AppSuggestionCubit>().submit(suggestion);
+    }
   }
 
   static String? _requiredValidator(String? value, String fieldName) {
@@ -193,11 +208,17 @@ class _SuggestAppPageState extends State<SuggestAppPage> {
 
   void _showSnackBar(BuildContext context, String message, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? Theme.of(context).colorScheme.error : null,
-      ),
+      SnackBar(content: Text(message), backgroundColor: isError ? Theme.of(context).colorScheme.error : null),
     );
+  }
+
+  void _prefill(AppSuggestionRecord record) {
+    _fields[0].controller.text = record.suggestion.name;
+    _fields[1].controller.text = record.suggestion.description ?? '';
+    _fields[2].controller.text = record.suggestion.logoUrl ?? '';
+    _fields[3].controller.text = record.suggestion.appStoreUrl ?? '';
+    _fields[4].controller.text = record.suggestion.playStoreUrl ?? '';
+    _tagsController.text = record.suggestion.tags.join(', ');
   }
 }
 

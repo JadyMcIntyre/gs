@@ -29,22 +29,38 @@ class AppSuggestionCubit extends Cubit<AppSuggestionState> {
     }
   }
 
-  Future<void> checkExisting() async {
-    emit(state.copyWith(isCheckingExisting: true, errorMessage: null));
+  Future<void> loadSuggestions() async {
+    emit(state.copyWith(isLoadingSuggestions: true, errorMessage: null));
     try {
-      final existing = await _repo.getExistingSuggestion();
-      emit(state.copyWith(existing: existing, isCheckingExisting: false));
+      final suggestions = await _repo.getSuggestions();
+      emit(state.copyWith(suggestions: suggestions, isLoadingSuggestions: false));
     } on AppSuggestionException catch (e) {
       emit(state.copyWith(
         status: AppSuggestionStatus.failure,
         errorMessage: e.message,
-        isCheckingExisting: false,
+        isLoadingSuggestions: false,
       ));
     } catch (e) {
       emit(state.copyWith(
         status: AppSuggestionStatus.failure,
         errorMessage: 'Unable to load your suggestion right now.',
-        isCheckingExisting: false,
+        isLoadingSuggestions: false,
+      ));
+    }
+  }
+
+  Future<void> update(String suggestionId, AppSuggestion suggestion) async {
+    emit(state.copyWith(status: AppSuggestionStatus.submitting, errorMessage: null));
+
+    try {
+      await _repo.updateSuggestion(suggestionId, suggestion);
+      emit(state.copyWith(status: AppSuggestionStatus.success));
+    } on AppSuggestionException catch (e) {
+      emit(state.copyWith(status: AppSuggestionStatus.failure, errorMessage: e.message));
+    } catch (e) {
+      emit(state.copyWith(
+        status: AppSuggestionStatus.failure,
+        errorMessage: 'Unable to update your suggestion right now.',
       ));
     }
   }
