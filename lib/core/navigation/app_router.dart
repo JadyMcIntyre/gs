@@ -16,6 +16,7 @@ import 'package:godsufficient/features/grow/apps/presentation/pages/find_apps_pa
 import 'package:godsufficient/features/auth/presentation/pages/sign_in.dart';
 import 'package:godsufficient/features/auth/presentation/pages/sign_up.dart';
 import 'package:godsufficient/features/settings/presentation/pages/settings_page.dart';
+import 'package:godsufficient/features/suggestions/presentation/pages/suggestions_applications_page.dart';
 
 GoRouter buildRouter() {
   return GoRouter(
@@ -26,6 +27,11 @@ GoRouter buildRouter() {
       GoRoute(path: '/sign_in', name: 'sign-in', builder: (context, state) => SignInPage()),
       GoRoute(path: '/sign_up', name: 'sign-up', builder: (context, state) => SignUpPage()),
       GoRoute(path: '/settings', name: 'settings', builder: (context, state) => const SettingsPage()),
+      GoRoute(
+        path: '/suggestions',
+        name: 'suggestions',
+        builder: (context, state) => const SuggestionsApplicationsPage(),
+      ),
 
       // ---------- OPTIONAL REDIRECTS from old paths ----------
       GoRoute(path: '/find_mentor', redirect: (_, __) => '/help/mentor/find'),

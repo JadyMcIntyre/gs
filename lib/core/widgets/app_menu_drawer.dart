@@ -27,6 +27,14 @@ class AppMenuDrawer extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 children: [
                   ListTile(
+                    leading: const Icon(Icons.inbox_outlined),
+                    title: const Text('Suggestions & Applications'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      context.push('/suggestions');
+                    },
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.settings),
                     title: const Text('Settings'),
                     onTap: () {
