@@ -13,6 +13,7 @@ import 'package:godsufficient/features/help/mentor/find_mentor/mentor_profile/pr
 import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/domain/entities/mentor.dart';
 import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/presentation/pages/find_mentor.dart';
 import 'package:godsufficient/features/grow/apps/presentation/pages/find_apps_page.dart';
+import 'package:godsufficient/features/grow/apps/presentation/pages/suggest_app_page.dart';
 import 'package:godsufficient/features/auth/presentation/pages/sign_in.dart';
 import 'package:godsufficient/features/auth/presentation/pages/sign_up.dart';
 import 'package:godsufficient/features/settings/presentation/pages/settings_page.dart';
@@ -86,6 +87,9 @@ StatefulShellBranch _branchForMega(Mega mega, List<Nested> nested) {
               final a = state.pathParameters['action'] == 'add' ? ActionType.add : ActionType.find;
               if (n == Nested.apps && a == ActionType.find) {
                 return const FindAppsPage();
+              }
+              if (n == Nested.apps && a == ActionType.add) {
+                return const SuggestAppPage();
               }
               return _DoAction(nested: n, action: a); // stub for not-yet-built screens
             },
