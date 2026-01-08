@@ -15,12 +15,12 @@ class HelpCenterModel extends HelpCenter {
     super.tags,
   });
 
-  factory HelpCenterModel.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory HelpCenterModel.fromDoc(DocumentSnapshot<Map<String, dynamic>> doc, {required String categoryId}) {
     final data = doc.data() ?? const <String, dynamic>{};
     return HelpCenterModel(
       id: doc.id,
       name: (data['name'] as String?)?.trim().isNotEmpty == true ? (data['name'] as String) : doc.id,
-      categoryId: (data['categoryId'] as String?)?.trim() ?? '',
+      categoryId: categoryId.trim(),
       description: data['description'] as String?,
       address: data['address'] as String?,
       phone: data['phone'] as String?,
@@ -37,4 +37,3 @@ class HelpCenterModel extends HelpCenter {
     return const [];
   }
 }
-

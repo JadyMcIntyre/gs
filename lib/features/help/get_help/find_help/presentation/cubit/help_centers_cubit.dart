@@ -30,10 +30,17 @@ class HelpCentersCubit extends Cubit<HelpCentersState> {
   Future<void> load({required String categoryId}) async {
     emit(const HelpCentersLoading());
     try {
-      final snapshot =
-          await _firestore.collection('help_centers').where('categoryId', isEqualTo: categoryId).get();
+      final snapshot = await _firestore
+          .collection('help_categories')
+          .doc(categoryId)
+          .collection('providers')
+          .get();
 
-      final centers = snapshot.docs.map(HelpCenterModel.fromDoc).where((c) => c.categoryId.isNotEmpty).toList()
+      final centers = snapshot.docs
+          .where((d) => (d.data()['isActive'] as bool?) ?? true)
+          .map((doc) => HelpCenterModel.fromDoc(doc, categoryId: categoryId))
+          .where((c) => c.categoryId.isNotEmpty)
+          .toList()
         ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
       emit(HelpCentersLoaded(centers));
@@ -42,4 +49,3 @@ class HelpCentersCubit extends Cubit<HelpCentersState> {
     }
   }
 }
-
