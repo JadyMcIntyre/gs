@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:godsufficient/features/help/mentor/become_mentor/domain/entities/mentor_application_record.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../models/mentor_application_model.dart';
@@ -28,6 +29,19 @@ class BecomeMentorRemoteDataSourceImpl implements BecomeMentorRemoteDataSource {
       return createdAt;
     }
     return null;
+  }
+
+  @override
+  Future<MentorApplicationRecord?> getApplication(String userId) async {
+    final snapshot = await _collection.doc(userId).get();
+    if (!snapshot.exists) return null;
+
+    final data = snapshot.data();
+    if (data == null) return null;
+
+    final application = MentorApplicationModel.fromFirestore(data);
+    final status = data['status'] as String? ?? 'submitted';
+    return MentorApplicationRecord(application: application, status: status);
   }
 
   @override

@@ -8,6 +8,7 @@ import 'package:godsufficient/core/di/injection.dart';
 import 'package:godsufficient/core/widgets/app_page.dart';
 import 'package:godsufficient/core/widgets/text_field.dart';
 import 'package:godsufficient/features/help/mentor/become_mentor/domain/entities/mentor_application.dart';
+import 'package:godsufficient/features/help/mentor/become_mentor/domain/entities/mentor_application_record.dart';
 import 'package:godsufficient/features/help/mentor/become_mentor/domain/entities/mentor_attachment.dart';
 import 'package:godsufficient/features/help/mentor/become_mentor/presentation/cubit/become_mentor_cubit.dart';
 
@@ -29,6 +30,7 @@ class _BecomeMentorState extends State<BecomeMentor> {
   Uint8List? _imagePreview;
   String? _selectedFileName;
   String? _selectedMimeType;
+  bool _handledExisting = false;
 
   @override
   void initState() {
@@ -90,9 +92,13 @@ class _BecomeMentorState extends State<BecomeMentor> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<BecomeMentorCubit>(),
+      create: (_) => sl<BecomeMentorCubit>()..checkExisting(),
       child: BlocConsumer<BecomeMentorCubit, BecomeMentorState>(
         listener: (context, state) {
+          if (!state.isCheckingExisting && !_handledExisting && state.existing != null) {
+            _handledExisting = true;
+            _handleExistingApplication(state.existing!);
+          }
           if (state.status == BecomeMentorStatus.success) {
             for (final field in _fields) {
               field.controller.clear();
@@ -309,6 +315,93 @@ class _BecomeMentorState extends State<BecomeMentor> {
     );
 
     context.read<BecomeMentorCubit>().submit(application, attachment: _attachment);
+  }
+
+  Future<void> _handleExistingApplication(MentorApplicationRecord record) async {
+    if (!mounted) return;
+
+    if (record.isReviewing) {
+      await _showInfoDialog(
+        title: 'Application under review',
+        message: 'Your mentor application is under review and cannot be edited right now.',
+      );
+      if (mounted) {
+        context.go('/grow');
+      }
+      return;
+    }
+
+    final shouldEdit = await _showConfirmDialog(
+      title: 'Application already submitted',
+      message: 'Status: ${record.status}. Would you like to update your application?',
+      confirmLabel: 'Update',
+      cancelLabel: 'Cancel',
+    );
+
+    if (shouldEdit == true) {
+      _prefillFields(record.application);
+    } else if (mounted) {
+      context.go('/grow');
+    }
+  }
+
+  void _prefillFields(MentorApplication application) {
+    _fields[0].controller.text = application.firstName;
+    _fields[1].controller.text = application.lastName;
+    _fields[2].controller.text = application.email;
+    _fields[3].controller.text = application.phone;
+    _fields[4].controller.text = application.expertise;
+    _fields[5].controller.text = application.description;
+    setState(() {
+      _attachment = null;
+      _selectedFileName = null;
+      _selectedMimeType = null;
+      _imagePreview = null;
+    });
+  }
+
+  Future<void> _showInfoDialog({
+    required String title,
+    required String message,
+  }) {
+    return showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<bool?> _showConfirmDialog({
+    required String title,
+    required String message,
+    required String confirmLabel,
+    required String cancelLabel,
+  }) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(cancelLabel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(confirmLabel),
+          ),
+        ],
+      ),
+    );
   }
 
   static String? _requiredValidator(String? value, String fieldName) {

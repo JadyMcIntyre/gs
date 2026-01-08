@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../domain/entities/mentor_application.dart';
 import '../../domain/entities/mentor_attachment.dart';
+import '../../domain/entities/mentor_application_record.dart';
 import '../../domain/exceptions/become_mentor_exception.dart';
 import '../../domain/repo/become_mentor_repo.dart';
 import '../datasources/remote/become_mentor_remote_data_source.dart';
@@ -28,24 +29,31 @@ class BecomeMentorRepoImpl implements BecomeMentorRepo {
       throw const BecomeMentorException('Please sign in before submitting a mentor request.');
     }
 
-    final lastSubmission = await _remoteDataSource.lastSubmissionAt(user.uid);
-    if (lastSubmission != null) {
-      final elapsed = DateTime.now().toUtc().difference(lastSubmission.toUtc());
-      if (elapsed < _submissionCooldown) {
-        final remaining = _submissionCooldown - elapsed;
-        final minutes = remaining.inMinutes;
-        final seconds = remaining.inSeconds % 60;
-        final buffer = StringBuffer();
-        if (minutes > 0) {
-          buffer.write('$minutes minute${minutes == 1 ? '' : 's'}');
+    final existing = await _remoteDataSource.getApplication(user.uid);
+    if (existing != null && existing.isReviewing) {
+      throw const BecomeMentorException('Your application is under review and cannot be edited.');
+    }
+
+    if (existing == null) {
+      final lastSubmission = await _remoteDataSource.lastSubmissionAt(user.uid);
+      if (lastSubmission != null) {
+        final elapsed = DateTime.now().toUtc().difference(lastSubmission.toUtc());
+        if (elapsed < _submissionCooldown) {
+          final remaining = _submissionCooldown - elapsed;
+          final minutes = remaining.inMinutes;
+          final seconds = remaining.inSeconds % 60;
+          final buffer = StringBuffer();
+          if (minutes > 0) {
+            buffer.write('$minutes minute${minutes == 1 ? '' : 's'}');
+          }
+          if (minutes > 0 && seconds > 0) {
+            buffer.write(' and ');
+          }
+          if (seconds > 0) {
+            buffer.write('$seconds second${seconds == 1 ? '' : 's'}');
+          }
+          throw BecomeMentorException('Please wait $buffer before submitting another request.');
         }
-        if (minutes > 0 && seconds > 0) {
-          buffer.write(' and ');
-        }
-        if (seconds > 0) {
-          buffer.write('$seconds second${seconds == 1 ? '' : 's'}');
-        }
-        throw BecomeMentorException('Please wait $buffer before submitting another request.');
       }
     }
 
@@ -65,6 +73,22 @@ class BecomeMentorRepoImpl implements BecomeMentorRepo {
       throw BecomeMentorException(e.message ?? 'Unable to submit mentor request. (${e.code})');
     } catch (e) {
       throw BecomeMentorException('Something went wrong while submitting your request.');
+    }
+  }
+
+  @override
+  Future<MentorApplicationRecord?> getExistingApplication() async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      return null;
+    }
+
+    try {
+      return await _remoteDataSource.getApplication(user.uid);
+    } on FirebaseException catch (e) {
+      throw BecomeMentorException(e.message ?? 'Unable to load your mentor request. (${e.code})');
+    } catch (e) {
+      throw const BecomeMentorException('Something went wrong while loading your request.');
     }
   }
 }

@@ -22,6 +22,17 @@ class MentorApplicationModel extends MentorApplication {
     );
   }
 
+  factory MentorApplicationModel.fromFirestore(Map<String, dynamic> data) {
+    return MentorApplicationModel(
+      firstName: data['firstName'] as String? ?? '',
+      lastName: data['lastName'] as String? ?? '',
+      email: data['email'] as String? ?? '',
+      phone: data['phone'] as String? ?? '',
+      expertise: data['expertise'] as String? ?? '',
+      description: data['description'] as String? ?? '',
+    );
+  }
+
   Map<String, dynamic> toFirestore() {
     return {
       'firstName': firstName,
