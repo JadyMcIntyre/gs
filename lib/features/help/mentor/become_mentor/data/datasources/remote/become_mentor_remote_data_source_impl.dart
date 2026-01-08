@@ -12,19 +12,15 @@ class BecomeMentorRemoteDataSourceImpl implements BecomeMentorRemoteDataSource {
   final FirebaseFirestore _firestore;
   final FirebaseStorage _storage;
 
-  CollectionReference<Map<String, dynamic>> get _collection => _firestore.collection('suggestions');
+  CollectionReference<Map<String, dynamic>> get _collection =>
+      _firestore.collection('suggestions').doc('help').collection('mentor');
 
   @override
   Future<DateTime?> lastSubmissionAt(String userId) async {
-    final snapshot = await _collection
-        .where('userId', isEqualTo: userId)
-        .orderBy('createdAt', descending: true)
-        .limit(1)
-        .get();
+    final snapshot = await _collection.doc(userId).get();
+    if (!snapshot.exists) return null;
 
-    if (snapshot.docs.isEmpty) return null;
-
-    final createdAt = snapshot.docs.first.data()['createdAt'];
+    final createdAt = snapshot.data()?['createdAt'];
     if (createdAt is Timestamp) {
       return createdAt.toDate();
     }
@@ -40,13 +36,13 @@ class BecomeMentorRemoteDataSourceImpl implements BecomeMentorRemoteDataSource {
     required String userId,
     MentorAttachmentModel? attachment,
   }) async {
-    final docRef = _collection.doc();
+    final docRef = _collection.doc(userId);
 
     String? storagePath;
     String? downloadUrl;
 
     if (attachment != null) {
-      storagePath = 'suggestions/$userId/${docRef.id}/${attachment.name}';
+      storagePath = 'suggestions/help/mentor/$userId/${attachment.name}';
       final ref = _storage.ref(storagePath);
       final metadata = SettableMetadata(contentType: attachment.mimeType);
       await ref.putData(attachment.bytes, metadata);
