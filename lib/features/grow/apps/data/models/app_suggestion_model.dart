@@ -21,6 +21,22 @@ class AppSuggestionModel extends AppSuggestion {
     );
   }
 
+  factory AppSuggestionModel.fromFirestore(Map<String, dynamic> data) {
+    return AppSuggestionModel(
+      name: data['name'] as String? ?? '',
+      description: data['description'] as String?,
+      logoUrl: data['logoUrl'] as String?,
+      appStoreUrl: data['appStoreUrl'] as String?,
+      playStoreUrl: data['playStoreUrl'] as String?,
+      tags: (data['tags'] as List<dynamic>?)
+              ?.whereType<String>()
+              .map((tag) => tag.trim())
+              .where((tag) => tag.isNotEmpty)
+              .toList() ??
+          const [],
+    );
+  }
+
   Map<String, dynamic> toFirestore() {
     return {
       'name': name,
