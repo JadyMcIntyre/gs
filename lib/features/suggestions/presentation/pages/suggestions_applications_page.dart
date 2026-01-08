@@ -8,6 +8,9 @@ import 'package:godsufficient/core/widgets/app_page.dart';
 import 'package:godsufficient/features/grow/apps/data/datasources/remote/app_suggestion_remote_data_source_impl.dart';
 import 'package:godsufficient/features/grow/apps/data/repo/app_suggestion_repo_impl.dart';
 import 'package:godsufficient/features/grow/apps/presentation/cubit/app_suggestion_cubit.dart';
+import 'package:godsufficient/features/help/get_help/add_help/data/datasources/remote/help_center_suggestion_remote_data_source_impl.dart';
+import 'package:godsufficient/features/help/get_help/add_help/data/repo/help_center_suggestion_repo_impl.dart';
+import 'package:godsufficient/features/help/get_help/add_help/presentation/cubit/help_center_suggestion_cubit.dart';
 import 'package:godsufficient/features/help/mentor/become_mentor/presentation/cubit/become_mentor_cubit.dart';
 
 class SuggestionsApplicationsPage extends StatefulWidget {
@@ -54,34 +57,47 @@ class _SuggestionsApplicationsPageState extends State<SuggestionsApplicationsPag
       AppSuggestionRemoteDataSourceImpl(FirebaseFirestore.instance),
       FirebaseAuth.instance,
     );
+    final helpCenterSuggestionRepo = HelpCenterSuggestionRepoImpl(
+      HelpCenterSuggestionRemoteDataSourceImpl(FirebaseFirestore.instance),
+      FirebaseAuth.instance,
+    );
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<BecomeMentorCubit>()..checkExisting()),
         BlocProvider(create: (_) => AppSuggestionCubit(appSuggestionRepo)..loadSuggestions()),
+        BlocProvider(
+          create: (_) => HelpCenterSuggestionCubit(helpCenterSuggestionRepo)..loadSuggestions(),
+        ),
       ],
       child: BlocBuilder<BecomeMentorCubit, BecomeMentorState>(
         builder: (context, mentorState) {
           return BlocBuilder<AppSuggestionCubit, AppSuggestionState>(
             builder: (context, appState) {
-              final sections = <Widget>[
-                _buildMentorSection(context, mentorState),
-                const SizedBox(height: 16),
-                _buildAppSection(context, appState),
-              ];
+              return BlocBuilder<HelpCenterSuggestionCubit, HelpCenterSuggestionState>(
+                builder: (context, helpState) {
+                  final sections = <Widget>[
+                    _buildMentorSection(context, mentorState),
+                    const SizedBox(height: 16),
+                    _buildAppSection(context, appState),
+                    const SizedBox(height: 16),
+                    _buildHelpCenterSection(context, helpState),
+                  ];
 
-              return AppPage(
-                title: 'Suggestions & Applications',
-                isScrollable: true,
-                widgets: [
-                  Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: sections,
-                    ),
-                  ),
-                ],
+                  return AppPage(
+                    title: 'Suggestions & Applications',
+                    isScrollable: true,
+                    widgets: [
+                      Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: sections,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               );
             },
           );
@@ -199,8 +215,68 @@ class _SuggestionsApplicationsPageState extends State<SuggestionsApplicationsPag
                 child: _SuggestionRow(
                   title: record.suggestion.name,
                   status: record.status,
+                  icon: Icons.apps_outlined,
                   onEdit: record.isSubmitted
                       ? () => context.go('/grow/apps/add', extra: record)
+                      : null,
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  Widget _buildHelpCenterSection(BuildContext context, HelpCenterSuggestionState state) {
+    if (state.isLoadingSuggestions) {
+      return const _SectionCard(
+        title: 'Help centre suggestion',
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (state.status == HelpCenterSuggestionStatus.failure && state.errorMessage != null) {
+      return _SectionCard(
+        title: 'Help centre suggestion',
+        child: _ErrorSection(
+          message: state.errorMessage!,
+          onRetry: () => context.read<HelpCenterSuggestionCubit>().loadSuggestions(),
+        ),
+      );
+    }
+
+    if (state.suggestions.isEmpty) {
+      return _SectionCard(
+        title: 'Help centre suggestion',
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.inbox_outlined, size: 40),
+            const SizedBox(height: 12),
+            const Text('No help centre suggestions yet.'),
+            const SizedBox(height: 12),
+            FilledButton(
+              onPressed: () => context.go('/help/get_help/add'),
+              child: const Text('Add help centre'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return _SectionCard(
+      title: 'Help centre suggestion',
+      child: Column(
+        children: state.suggestions
+            .map(
+              (record) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _SuggestionRow(
+                  title: record.suggestion.name,
+                  status: record.status,
+                  icon: Icons.support_agent,
+                  onEdit: record.isSubmitted
+                      ? () => context.go('/help/get_help/add', extra: record)
                       : null,
                 ),
               ),
@@ -267,11 +343,13 @@ class _SuggestionRow extends StatelessWidget {
   const _SuggestionRow({
     required this.title,
     required this.status,
+    required this.icon,
     this.onEdit,
   });
 
   final String title;
   final String status;
+  final IconData icon;
   final VoidCallback? onEdit;
 
   @override
@@ -284,7 +362,7 @@ class _SuggestionRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.apps_outlined),
+          Icon(icon),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
