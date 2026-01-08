@@ -16,36 +16,17 @@ class SettingsPage extends StatelessWidget {
             children: [
               const SizedBox(height: 8),
               Text('App mode', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              RadioListTile<ThemeMode>(
-                value: ThemeMode.system,
-                groupValue: mode,
-                onChanged: (value) {
-                  if (value != null) {
-                    context.read<ThemeCubit>().setThemeMode(value);
-                  }
+              const SizedBox(height: 12),
+              SegmentedButton<ThemeMode>(
+                segments: const [
+                  ButtonSegment(value: ThemeMode.system, label: Text('System')),
+                  ButtonSegment(value: ThemeMode.dark, label: Text('Dark')),
+                  ButtonSegment(value: ThemeMode.light, label: Text('Light')),
+                ],
+                selected: {mode},
+                onSelectionChanged: (values) {
+                  context.read<ThemeCubit>().setThemeMode(values.first);
                 },
-                title: const Text('System'),
-              ),
-              RadioListTile<ThemeMode>(
-                value: ThemeMode.dark,
-                groupValue: mode,
-                onChanged: (value) {
-                  if (value != null) {
-                    context.read<ThemeCubit>().setThemeMode(value);
-                  }
-                },
-                title: const Text('Dark'),
-              ),
-              RadioListTile<ThemeMode>(
-                value: ThemeMode.light,
-                groupValue: mode,
-                onChanged: (value) {
-                  if (value != null) {
-                    context.read<ThemeCubit>().setThemeMode(value);
-                  }
-                },
-                title: const Text('Light'),
               ),
             ],
           );
