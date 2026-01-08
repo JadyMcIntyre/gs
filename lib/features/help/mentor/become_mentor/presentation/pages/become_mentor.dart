@@ -110,7 +110,7 @@ class _BecomeMentorState extends State<BecomeMentor> {
               _selectedMimeType = null;
             });
             context.read<BecomeMentorCubit>().reset();
-            context.go('/suggestions', extra: const {'showSubmissionDialog': true});
+            context.push('/suggestions', extra: const {'showSubmissionDialog': true});
           } else if (state.status == BecomeMentorStatus.failure && state.errorMessage != null) {
             _showSnackBar(context, state.errorMessage!, isError: true);
           }

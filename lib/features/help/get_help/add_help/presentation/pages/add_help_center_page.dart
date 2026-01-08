@@ -116,7 +116,7 @@ class _AddHelpCenterPageState extends State<AddHelpCenterPage> {
             }
             _tagsController.clear();
             _editingRecord = null;
-            context.go('/suggestions', extra: const {'showSubmissionDialog': true});
+            context.push('/suggestions', extra: const {'showSubmissionDialog': true});
           } else if (state.status == HelpCenterSuggestionStatus.failure &&
               state.errorMessage != null) {
             _showSnackBar(context, state.errorMessage!, isError: true);

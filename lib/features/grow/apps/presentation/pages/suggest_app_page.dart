@@ -104,7 +104,7 @@ class _SuggestAppPageState extends State<SuggestAppPage> {
             }
             _tagsController.clear();
             _editingRecord = null;
-            context.go('/suggestions', extra: const {'showSubmissionDialog': true});
+            context.push('/suggestions', extra: const {'showSubmissionDialog': true});
           } else if (state.status == AppSuggestionStatus.failure && state.errorMessage != null) {
             _showSnackBar(context, state.errorMessage!, isError: true);
           }
