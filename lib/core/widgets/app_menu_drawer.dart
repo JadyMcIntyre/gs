@@ -20,6 +20,14 @@ class AppMenuDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.of(context).pop();
+                context.go('/settings');
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Log out'),
               onTap: () => _logout(context),

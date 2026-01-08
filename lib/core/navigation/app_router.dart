@@ -15,6 +15,7 @@ import 'package:godsufficient/features/help/mentor/find_mentor/preview_mentors/p
 import 'package:godsufficient/features/grow/apps/presentation/pages/find_apps_page.dart';
 import 'package:godsufficient/features/auth/presentation/pages/sign_in.dart';
 import 'package:godsufficient/features/auth/presentation/pages/sign_up.dart';
+import 'package:godsufficient/features/settings/presentation/pages/settings_page.dart';
 
 GoRouter buildRouter() {
   return GoRouter(
@@ -24,6 +25,7 @@ GoRouter buildRouter() {
       // ---------- AUTH (top-level) ----------
       GoRoute(path: '/sign_in', name: 'sign-in', builder: (context, state) => SignInPage()),
       GoRoute(path: '/sign_up', name: 'sign-up', builder: (context, state) => SignUpPage()),
+      GoRoute(path: '/settings', name: 'settings', builder: (context, state) => const SettingsPage()),
 
       // ---------- OPTIONAL REDIRECTS from old paths ----------
       GoRoute(path: '/find_mentor', redirect: (_, __) => '/help/mentor/find'),
