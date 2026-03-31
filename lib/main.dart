@@ -22,8 +22,16 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final _router = buildRouter();
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -35,7 +43,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<ThemeModeCubit, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp.router(
-            routerConfig: buildRouter(),
+            routerConfig: _router,
             title: 'God Sufficient',
             theme: lightTheme(),
             darkTheme: darkTheme(),

@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b020238-75be-4655-a98d-fca823d82b24" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/core/navigation/app_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/navigation/app_router.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/core/navigation/min_app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/navigation/min_app.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +58,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "updates",
     "io.flutter.project.isFirstOpen": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/jady/Dev/personal/gs",
