@@ -21,7 +21,7 @@ class HomeMenuDrawer extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Menu', style: textTheme.headlineSmall),
+                child: Text('Menu', style: textTheme.headlineSmall?.copyWith(color: Theme.of(context).colorScheme.onSurface)),
               ),
             ),
             ExpansionTile(
@@ -60,8 +60,8 @@ class _ThemeModeTile extends StatelessWidget {
         return SwitchListTile.adaptive(
           value: isDarkMode,
           secondary: Icon(isDarkMode ? AppIcons.darkMode : AppIcons.lightMode),
-          title: const Text('Dark mode'),
-          subtitle: const Text('Toggle between light and dark theme'),
+          title: Text('${isDarkMode ?  'Dark' : 'Light'} mode'),
+          // subtitle: const Text('Toggle between light and dark theme'),
           onChanged: context.read<ThemeModeCubit>().setDarkMode,
         );
       },
