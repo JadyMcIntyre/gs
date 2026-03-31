@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:godsufficient/theme/app_icons.dart';
 
 class HelpCenterPreview extends StatelessWidget {
   const HelpCenterPreview({
@@ -74,8 +75,16 @@ class HelpCenterPreview extends StatelessWidget {
                                   border: Border.all(color: cs.outlineVariant),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                  child: Text(t, style: tt.labelMedium?.copyWith(color: cs.onSurfaceVariant)),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 6,
+                                  ),
+                                  child: Text(
+                                    t,
+                                    style: tt.labelMedium?.copyWith(
+                                      color: cs.onSurfaceVariant,
+                                    ),
+                                  ),
                                 ),
                               ),
                             )
@@ -84,7 +93,12 @@ class HelpCenterPreview extends StatelessWidget {
                     ],
                     if ((description ?? '').trim().isNotEmpty) ...[
                       const SizedBox(height: 12),
-                      Text(description!.trim(), style: descStyle, maxLines: 3, overflow: TextOverflow.ellipsis),
+                      Text(
+                        description!.trim(),
+                        style: descStyle,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ],
                   ],
                 ),
@@ -107,9 +121,12 @@ class _Avatar extends StatelessWidget {
     return CircleAvatar(
       radius: 28,
       backgroundColor: cs.surfaceVariant,
-      backgroundImage: (imageUrl ?? '').trim().isNotEmpty ? NetworkImage(imageUrl!.trim()) : null,
-      child: (imageUrl ?? '').trim().isNotEmpty ? null : Icon(Icons.place_outlined, color: cs.onSurfaceVariant),
+      backgroundImage: (imageUrl ?? '').trim().isNotEmpty
+          ? NetworkImage(imageUrl!.trim())
+          : null,
+      child: (imageUrl ?? '').trim().isNotEmpty
+          ? null
+          : Icon(AppIcons.place, color: cs.onSurfaceVariant),
     );
   }
 }
-

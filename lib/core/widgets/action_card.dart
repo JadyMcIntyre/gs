@@ -1,8 +1,15 @@
 // lib/shared/ui/action_card.dart
 import 'package:flutter/material.dart';
+import 'package:godsufficient/theme/app_icons.dart';
 
 class ActionCard extends StatelessWidget {
-  const ActionCard({super.key, required this.title, this.subtitle, this.icon, this.onTap});
+  const ActionCard({
+    super.key,
+    required this.title,
+    this.subtitle,
+    this.icon,
+    this.onTap,
+  });
 
   final String title;
   final String? subtitle;
@@ -33,12 +40,15 @@ class ActionCard extends StatelessWidget {
                   Text(title, style: Theme.of(context).textTheme.titleMedium),
                   if (subtitle != null) ...[
                     const SizedBox(height: 4),
-                    Text(subtitle!, style: Theme.of(context).textTheme.bodySmall),
+                    Text(
+                      subtitle!,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                   ],
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right),
+            Icon(AppIcons.forward),
           ],
         ),
       ),

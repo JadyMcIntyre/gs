@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:godsufficient/core/widgets/icon_button.dart';
 import 'package:godsufficient/core/widgets/app_page.dart';
 import 'package:godsufficient/core/widgets/text_field.dart';
+import 'package:godsufficient/theme/app_icons.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({
@@ -20,7 +21,9 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final title = isSigningIn ? 'Sign In' : 'Sign Up';
     final redirectPath = isSigningIn ? '/sign_up' : '/sign_in';
-    final redirectText = isSigningIn ? 'Don’t have an account? Register here' : 'Already have an account? Log in here';
+    final redirectText = isSigningIn
+        ? 'Don’t have an account? Register here'
+        : 'Already have an account? Log in here';
 
     return AppPage(
       padding: const EdgeInsets.all(24),
@@ -28,22 +31,35 @@ class AuthScreen extends StatelessWidget {
       widgets: [
         Text(
           title,
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: Theme.of(context).colorScheme.secondary),
+          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
         ),
         const SizedBox(height: 20),
-        CustomTextField(controller: emailController, label: 'Email', hint: 'john@gmail.com'),
+        CustomTextField(
+          controller: emailController,
+          label: 'Email',
+          hint: 'john@gmail.com',
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 9),
-          child: CustomTextField(controller: passwordController, obscureText: true, label: 'Password'),
+          child: CustomTextField(
+            controller: passwordController,
+            obscureText: true,
+            label: 'Password',
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: FilledButton(onPressed: action, child: Text(title)),
         ),
         // Third Party Auth
-        CustomIconButton(onPressed: () {}, iconData: Icons.apple),
+        CustomIconButton(onPressed: () {}, iconData: AppIcons.apple),
         // Redirect
-        TextButton(onPressed: () => context.go(redirectPath), child: Text(redirectText)),
+        TextButton(
+          onPressed: () => context.go(redirectPath),
+          child: Text(redirectText),
+        ),
       ],
     );
   }

@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:godsufficient/core/di/injection.dart';
 import 'package:godsufficient/core/navigation/app_router.dart';
+import 'package:godsufficient/core/navigation/home_menu_cubit.dart';
 import 'package:godsufficient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:godsufficient/firebase_options.dart';
 import 'package:godsufficient/theme/theme.dart';
+import 'package:godsufficient/theme/theme_mode_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required for Firebase initialization
@@ -25,13 +27,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => sl<AuthCubit>())],
-      child: MaterialApp.router(
-        routerConfig: buildRouter(),
-        title: 'God Sufficient',
-        theme: lightTheme(),
-        darkTheme: darkTheme(),
-        themeMode: ThemeMode.light,
+      providers: [
+        BlocProvider(create: (_) => sl<AuthCubit>()),
+        BlocProvider(create: (_) => HomeMenuCubit()),
+        BlocProvider(create: (_) => ThemeModeCubit()),
+      ],
+      child: BlocBuilder<ThemeModeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp.router(
+            routerConfig: buildRouter(),
+            title: 'God Sufficient',
+            theme: lightTheme(),
+            darkTheme: darkTheme(),
+            themeMode: themeMode,
+          );
+        },
       ),
     );
   }

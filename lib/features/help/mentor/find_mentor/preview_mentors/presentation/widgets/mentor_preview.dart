@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:godsufficient/theme/app_icons.dart';
 
 class MentorPreview extends StatelessWidget {
   final String name;
@@ -29,8 +30,14 @@ class MentorPreview extends StatelessWidget {
       fontWeight: FontWeight.bold,
       overflow: TextOverflow.ellipsis,
     );
-    final expertiseStyle = tt.bodySmall?.copyWith(color: cs.onSurface, fontWeight: FontWeight.w600);
-    final descStyle = tt.titleMedium?.copyWith(color: cs.onSurface, overflow: TextOverflow.ellipsis);
+    final expertiseStyle = tt.bodySmall?.copyWith(
+      color: cs.onSurface,
+      fontWeight: FontWeight.w600,
+    );
+    final descStyle = tt.titleMedium?.copyWith(
+      color: cs.onSurface,
+      overflow: TextOverflow.ellipsis,
+    );
 
     return GestureDetector(
       onTap: onTap,
@@ -41,7 +48,9 @@ class MentorPreview extends StatelessWidget {
           Card(
             margin: const EdgeInsets.only(top: 30),
             elevation: 3,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
               child: Column(
@@ -52,7 +61,11 @@ class MentorPreview extends StatelessWidget {
                     children: [
                       const SizedBox(width: 110), // space for avatar
                       Expanded(
-                        child: Text(name, style: nameStyle, overflow: TextOverflow.ellipsis),
+                        child: Text(
+                          name,
+                          style: nameStyle,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
@@ -96,8 +109,12 @@ class MentorPreview extends StatelessWidget {
               child: CircleAvatar(
                 radius: 50,
                 backgroundColor: Colors.grey.shade200,
-                backgroundImage: imageLink != null ? NetworkImage(imageLink!) : null,
-                child: imageLink == null ? const Icon(Icons.person, size: 35, color: Colors.grey) : null,
+                backgroundImage: imageLink != null
+                    ? NetworkImage(imageLink!)
+                    : null,
+                child: imageLink == null
+                    ? Icon(AppIcons.person, size: 35, color: Colors.grey)
+                    : null,
               ),
             ),
           ),

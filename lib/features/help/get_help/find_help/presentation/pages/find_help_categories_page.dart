@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:godsufficient/core/widgets/action_card.dart';
 import 'package:godsufficient/core/widgets/app_page.dart';
+import 'package:godsufficient/theme/app_icons.dart';
 
 import '../cubit/help_categories_cubit.dart';
 
@@ -57,7 +58,8 @@ class FindHelpCategoriesPage extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: OutlinedButton(
-                      onPressed: () => context.read<HelpCategoriesCubit>().load(),
+                      onPressed: () =>
+                          context.read<HelpCategoriesCubit>().load(),
                       child: const Text('Reload'),
                     ),
                   ),
@@ -68,7 +70,7 @@ class FindHelpCategoriesPage extends StatelessWidget {
                       child: ActionCard(
                         title: c.label,
                         subtitle: c.description,
-                        icon: _iconForKey(c.icon),
+                        icon: AppIcons.helpCategory(c.icon),
                         onTap: () {
                           context.goNamed(
                             'help-get-help-centers',
@@ -88,29 +90,5 @@ class FindHelpCategoriesPage extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-IconData _iconForKey(String? key) {
-  switch (key?.toLowerCase().trim()) {
-    case 'rehab':
-    case 'rehabs':
-    case 'recovery':
-      return Icons.local_hospital_outlined;
-    case 'counseling':
-    case 'counselling':
-    case 'therapy':
-      return Icons.psychology_alt_outlined;
-    case 'shelter':
-    case 'housing':
-      return Icons.home_work_outlined;
-    case 'food':
-    case 'pantry':
-      return Icons.restaurant_outlined;
-    case 'hotline':
-    case 'crisis':
-      return Icons.phone_in_talk_outlined;
-    default:
-      return Icons.support_agent_outlined;
   }
 }

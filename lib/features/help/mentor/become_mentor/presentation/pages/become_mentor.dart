@@ -10,6 +10,7 @@ import 'package:godsufficient/core/widgets/text_field.dart';
 import 'package:godsufficient/features/help/mentor/become_mentor/domain/entities/mentor_application.dart';
 import 'package:godsufficient/features/help/mentor/become_mentor/domain/entities/mentor_attachment.dart';
 import 'package:godsufficient/features/help/mentor/become_mentor/presentation/cubit/become_mentor_cubit.dart';
+import 'package:godsufficient/theme/app_icons.dart';
 
 class BecomeMentor extends StatefulWidget {
   const BecomeMentor({super.key});
@@ -20,7 +21,14 @@ class BecomeMentor extends StatefulWidget {
 
 class _BecomeMentorState extends State<BecomeMentor> {
   static const _maxFileSizeBytes = 5 * 1024 * 1024; // 5MB
-  static const List<String> _allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'];
+  static const List<String> _allowedExtensions = [
+    'jpg',
+    'jpeg',
+    'png',
+    'pdf',
+    'doc',
+    'docx',
+  ];
 
   final _formKey = GlobalKey<FormState>();
   late final List<_FieldConfig> _fields;
@@ -103,9 +111,13 @@ class _BecomeMentorState extends State<BecomeMentor> {
               _selectedFileName = null;
               _selectedMimeType = null;
             });
-            _showSnackBar(context, 'Thanks! Your mentor submission was received.');
+            _showSnackBar(
+              context,
+              'Thanks! Your mentor submission was received.',
+            );
             context.read<BecomeMentorCubit>().reset();
-          } else if (state.status == BecomeMentorStatus.failure && state.errorMessage != null) {
+          } else if (state.status == BecomeMentorStatus.failure &&
+              state.errorMessage != null) {
             _showSnackBar(context, state.errorMessage!, isError: true);
           }
         },
@@ -187,7 +199,9 @@ class _BecomeMentorState extends State<BecomeMentor> {
                             ? const SizedBox(
                                 height: 20,
                                 width: 20,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Text('Submit'),
                       ),
@@ -212,16 +226,26 @@ class _BecomeMentorState extends State<BecomeMentor> {
         CircleAvatar(
           radius: 80,
           backgroundColor: color.withOpacity(0.15),
-          backgroundImage: _imagePreview != null ? MemoryImage(_imagePreview!) : null,
+          backgroundImage: _imagePreview != null
+              ? MemoryImage(_imagePreview!)
+              : null,
           child: _imagePreview == null
-              ? Icon(Icons.person_add_alt_1, size: 72, color: color.withOpacity(0.7))
+              ? Icon(
+                  AppIcons.addMentorAvatar,
+                  size: 72,
+                  color: color.withOpacity(0.7),
+                )
               : null,
         ),
         Positioned(
           right: 16,
           bottom: 20,
           child: IconButton(
-            icon: Icon(Icons.attach_file, size: 32, color: theme.colorScheme.secondary),
+            icon: Icon(
+              AppIcons.attachFile,
+              size: 32,
+              color: theme.colorScheme.secondary,
+            ),
             onPressed: isSubmitting ? null : _pickFile,
             tooltip: 'Add attachment',
           ),
@@ -242,12 +266,20 @@ class _BecomeMentorState extends State<BecomeMentor> {
     final file = result.files.single;
 
     if ((file.size) > _maxFileSizeBytes) {
-      _showSnackBar(context, 'File is larger than 5MB. Please choose a smaller file.', isError: true);
+      _showSnackBar(
+        context,
+        'File is larger than 5MB. Please choose a smaller file.',
+        isError: true,
+      );
       return;
     }
 
     if (file.bytes == null) {
-      _showSnackBar(context, 'Unable to read the selected file. Please try a different file.', isError: true);
+      _showSnackBar(
+        context,
+        'Unable to read the selected file. Please try a different file.',
+        isError: true,
+      );
       return;
     }
 
@@ -256,7 +288,11 @@ class _BecomeMentorState extends State<BecomeMentor> {
     final isImage = mimeType?.startsWith('image/') ?? false;
 
     setState(() {
-      _attachment = MentorApplicationAttachment(bytes: bytes, name: file.name, mimeType: mimeType);
+      _attachment = MentorApplicationAttachment(
+        bytes: bytes,
+        name: file.name,
+        mimeType: mimeType,
+      );
       _selectedFileName = file.name;
       _selectedMimeType = mimeType;
       _imagePreview = isImage ? bytes : null;
@@ -308,7 +344,10 @@ class _BecomeMentorState extends State<BecomeMentor> {
       description: _fields[5].controller.text.trim(),
     );
 
-    context.read<BecomeMentorCubit>().submit(application, attachment: _attachment);
+    context.read<BecomeMentorCubit>().submit(
+      application,
+      attachment: _attachment,
+    );
   }
 
   static String? _requiredValidator(String? value, String fieldName) {
@@ -340,7 +379,11 @@ class _BecomeMentorState extends State<BecomeMentor> {
     return null;
   }
 
-  void _showSnackBar(BuildContext context, String message, {bool isError = false}) {
+  void _showSnackBar(
+    BuildContext context,
+    String message, {
+    bool isError = false,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -391,14 +434,13 @@ class _AttachmentPreview extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: ListTile(
         leading: Icon(
-          mimeType?.startsWith('image/') ?? false ? Icons.image_outlined : Icons.insert_drive_file_outlined,
+          mimeType?.startsWith('image/') ?? false
+              ? AppIcons.imageFile
+              : AppIcons.documentFile,
         ),
         title: Text(fileName),
         subtitle: Text(mimeType ?? 'Attachment'),
-        trailing: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: onRemove,
-        ),
+        trailing: IconButton(icon: Icon(AppIcons.close), onPressed: onRemove),
       ),
     );
   }
